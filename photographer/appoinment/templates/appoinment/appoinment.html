@@ -39,13 +39,20 @@ Appoinment
 
 {% block script %} 
 <script>
+    var current = 0
     function opposite(){
+        const list = document.getElementById("date-group");
+        current += 1
+        while (list.hasChildNodes()) {
+        list.removeChild(list.firstChild);
+        }
         var data = JSON.parse("{{data|escapejs}}");
         for ( var i in data){// let's just print the data in the console for now
         var temp = `<li>
-            <p>${data[i][1]}</p>
+            <p>${data[i][current]}</p>
         <li>
         `
+        
         document.getElementById("date-group").innerHTML += temp;
       }
     }
