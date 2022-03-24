@@ -30,5 +30,26 @@ Appoinment
     {% endfor %}
     <br>
 {% endfor %}
+<input type="submit" id='opp' value="Submit" onclick="opposite()">
+
+    <div>
+        <ul id="date-group"></ul>
+    </div>
 {%endblock%}
+
+{% block script %} 
+<script>
+    function opposite(){
+        var data = JSON.parse("{{data|escapejs}}");
+        for ( var i in data){// let's just print the data in the console for now
+        var temp = `<li>
+            <p>${data[i][1]}</p>
+        <li>
+        `
+        document.getElementById("date-group").innerHTML += temp;
+      }
+    }
+    
+  </script>
+  {%endblock%}
 

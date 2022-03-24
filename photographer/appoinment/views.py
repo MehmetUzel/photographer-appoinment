@@ -2,6 +2,8 @@ from django.shortcuts import render
 import calendar
 import locale
 import datetime
+from django.core.serializers.json import DjangoJSONEncoder
+import json
 
 def get_days_for_next_four_months():
     locale.setlocale(locale.LC_ALL, 'turkish')
@@ -31,5 +33,8 @@ def get_days_for_next_four_months():
     return days
 
 def appoinment(response):
+    days = get_days_for_next_four_months()
+    data = json.dumps(days,sort_keys=True,indent=1,cls=DjangoJSONEncoder)
 
-    return render(response, "appoinment/appoinment.html", {'days':get_days_for_next_four_months()})
+
+    return render(response, "appoinment/appoinment.html", {'days':days,'data':data})
