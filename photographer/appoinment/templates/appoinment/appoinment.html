@@ -30,7 +30,11 @@ Appoinment
     {% endfor %}
     <br>
 {% endfor %}
-<input type="submit" id='opp' value="Submit" onclick="opposite()">
+<div >
+<input type="submit" id='opp' value="Previous" onclick="previous()">
+<input type="submit" id='opp' value="Next" onclick="next()">
+</div>
+
 
     <div>
         <ul id="date-group"></ul>
@@ -39,22 +43,57 @@ Appoinment
 
 {% block script %} 
 <script>
-    var current = 0
-    function opposite(){
+    var current = -1
+    var month = 0
+    function next(){
         const list = document.getElementById("date-group");
         current += 1
         while (list.hasChildNodes()) {
         list.removeChild(list.firstChild);
         }
         var data = JSON.parse("{{data|escapejs}}");
-        for ( var i in data){// let's just print the data in the console for now
+        
+        if (current == data[month].length) {
+            month += 1
+            current = 0
+            if (month == data.length){
+                month = 0
+            }
+
+        }
+        // let's just print the data in the console for now
         var temp = `<li>
-            <p>${data[i][current]}</p>
+            <p>${data[month][current]}</p>
         <li>
         `
         
         document.getElementById("date-group").innerHTML += temp;
-      }
+      
+    }
+    function previous(){
+        const list = document.getElementById("date-group");
+        current -= 1
+        while (list.hasChildNodes()) {
+        list.removeChild(list.firstChild);
+        }
+        var data = JSON.parse("{{data|escapejs}}");
+        
+        if (current <= -1) {
+            month -= 1
+            current = 0
+            if (month <= -1){
+                month = data.length-1
+            }
+
+        }
+        // let's just print the data in the console for now
+        var temp = `<li>
+            <p>${data[month][current]}</p>
+        <li>
+        `
+        
+        document.getElementById("date-group").innerHTML += temp;
+      
     }
     
   </script>
