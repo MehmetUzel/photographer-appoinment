@@ -1,0 +1,34 @@
+{% extends 'homepage/base.html' %}
+{% block title %}
+Appoinment
+{% endblock %}
+
+{%block content%}
+<h1>Anasayfa</h1>
+
+{% for x in days%}
+    
+    <table border="2" cellpadding="2" cellspacing="2" class="month">
+        <tr>
+            <th colspan="7" class="month">{{ x.0.0|date:"F o" }}</th>
+        </tr>
+        <tr>
+            <th class="Mon">Pazartesi</th>
+            <th class="Tue">&nbsp;&nbsp;&nbsp;Salı&nbsp;&nbsp;</th>
+            <th class="Wed">&nbsp;Çarşamba</th>
+            <th class="Thu">&nbsp;Perşembe</th>
+            <th class="Fri">&nbsp;&nbsp;&nbsp;Cuma&nbsp;&nbsp;</th>
+            <th class="Sat">Cumartesi</th>
+            <th class="Sun">&nbsp;&nbsp;Pazar&nbsp;&nbsp;</th>
+        </tr>
+    {% for y in x %}
+        <tr>
+        {% for z in y %}
+            <td class="{{z|date:"D"}}">{{z|date:"j"}}</td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    <br>
+{% endfor %}
+{%endblock%}
+
