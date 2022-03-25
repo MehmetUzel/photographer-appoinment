@@ -4,42 +4,12 @@ Appoinment
 {% endblock %}
 
 {%block content%}
-<h1>Randevu</h1>
-{% comment %} <div style="text-align:center;justify-content: center;">
-{% for x in days%}
-    
-    <table border="2" cellpadding="2" cellspacing="2" class="month">
-        <tr>
-            <th colspan="7" class="month">{{ x.0.0|date:"F o" }}</th>
-        </tr>
-        <tr>
-            <th class="Mon">Pazartesi</th>
-            <th class="Tue">&nbsp;&nbsp;&nbsp;Salı&nbsp;&nbsp;</th>
-            <th class="Wed">&nbsp;Çarşamba</th>
-            <th class="Thu">&nbsp;Perşembe</th>
-            <th class="Fri">&nbsp;&nbsp;&nbsp;Cuma&nbsp;&nbsp;</th>
-            <th class="Sat">Cumartesi</th>
-            <th class="Sun">&nbsp;&nbsp;Pazar&nbsp;&nbsp;</th>
-        </tr>
-    {% for y in x %}
-        <tr>
-        {% for z in y %}
-            <td class="{{z|date:"D"}}">{{z|date:"j"}}</td>
-        {% endfor %}
-        </tr>
-    {% endfor %}
-    <br>
-{% endfor %}
-    </div> {% endcomment %}
+<h4>Randevu</h4>
 <div style="text-align:center;">
 <input type="submit" id='opp' value="Previous" onclick="previous()">
 <input type="submit" id='opp' value="Next" onclick="next()">
 </div>
 
-
-    <div>
-        <ul id="date-group"></ul>
-    </div>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <table>
@@ -138,11 +108,7 @@ Appoinment
     var d = new Date();
 
     function next(){
-        const list = document.getElementById("date-group");
         current += 1
-        while (list.hasChildNodes()) {
-        list.removeChild(list.firstChild);
-        }
         
         if (current == data[month].length) {
             month += 1
@@ -157,11 +123,7 @@ Appoinment
       
     }
     function previous(){
-        const list = document.getElementById("date-group");
         current -= 1
-        while (list.hasChildNodes()) {
-        list.removeChild(list.firstChild);
-        }
         
         if (current <= -1) {
             month -= 1
@@ -173,7 +135,7 @@ Appoinment
             current = data[month].length-1
             }
         }
-        
+
         change_values()
       
     }
@@ -188,17 +150,11 @@ Appoinment
 
         var monhml = `<h3>${monthtext}</h3>`
 
-        document.getElementById("date-group").innerHTML += monhml;
-
         var dayslist = document.getElementsByClassName("day");
 
         data[month][current].forEach(myFunction);
 
         function myFunction(value, index, arr) {
-        var temp = `<li>
-            <p>${value}</p>
-        <li>`
-        document.getElementById("date-group").innerHTML += temp;
         var current_date = new Date(value)
         dayslist[index].innerHTML = current_date.getDate()	
         }
