@@ -62,37 +62,37 @@
 # #--- 0.00477147102355957 seconds ---
 
 
-import calendar
-import locale
-import datetime
+# import calendar
+# import locale
+# import datetime
 
-locale.setlocale(locale.LC_ALL, 'turkish')
+# locale.setlocale(locale.LC_ALL, 'turkish')
 
-obj = calendar.Calendar()
+# obj = calendar.Calendar()
  
 
-last_week = []
-days = []
-month = datetime.date.today().month
-year = datetime.date.today().year
-lastmonth = month+4
+# last_week = []
+# days = []
+# month = datetime.date.today().month
+# year = datetime.date.today().year
+# lastmonth = month+4
 
 
 
-if (month > 8):
-    lastmonth = 13
+# if (month > 8):
+#     lastmonth = 13
 
-for x in range(month,lastmonth):
-    current_li = list(obj.monthdatescalendar(year, x))
-    if current_li[0] == last_week:
-        current_li.pop(0)
-    for day in current_li:
-        print(day[3].strftime("%B"))
-        for x in day:
-            print(x)
-        print()
-    days.append(current_li)
-    last_week = current_li[-1]
+# for x in range(month,lastmonth):
+#     current_li = list(obj.monthdatescalendar(year, x))
+#     if current_li[0] == last_week:
+#         current_li.pop(0)
+#     for day in current_li:
+#         print(day[3].strftime("%B"))
+#         for x in day:
+#             print(x)
+#         print()
+#     days.append(current_li)
+#     last_week = current_li[-1]
 
 # for x in days:
 #     for y in x:

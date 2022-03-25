@@ -4,8 +4,8 @@ Appoinment
 {% endblock %}
 
 {%block content%}
-<h1>Anasayfa</h1>
-
+<h1>Randevu</h1>
+{% comment %} <div style="text-align:center;justify-content: center;">
 {% for x in days%}
     
     <table border="2" cellpadding="2" cellspacing="2" class="month">
@@ -30,7 +30,8 @@ Appoinment
     {% endfor %}
     <br>
 {% endfor %}
-<div >
+    </div> {% endcomment %}
+<div style="text-align:center;">
 <input type="submit" id='opp' value="Previous" onclick="previous()">
 <input type="submit" id='opp' value="Next" onclick="next()">
 </div>
@@ -39,19 +40,109 @@ Appoinment
     <div>
         <ul id="date-group"></ul>
     </div>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <table>
+        <thead>
+          <tr>
+            <th>
+              <span class="long" id="monthl">Mart</span>
+              <span class="short" id="months">Mart</span>
+            </th>
+            <th>
+              <span class="day">1</span>
+              <span class="long">Monday</span>
+              <span class="short">Mon</span>
+            </th>
+            <th>
+              <span class="day">2</span>
+              <span class="long">Tuesday</span>
+              <span class="short">Tue</span>
+            </th>
+            <th>
+              <span class="day">3</span>
+              <span class="long">Wendsday</span>
+              <span class="short">We</span>
+            </th>
+            <th>
+              <span class="day">4</span>
+              <span class="long">Thursday</span>
+              <span class="short">Thur</span>
+            </th>
+            <th>
+              <span class="day">5</span>
+              <span class="long">Friday</span>
+              <span class="short">Fri</span>
+            </th>
+            <th>
+              <span class="day">6</span>
+              <span class="long">Saturday</span>
+              <span class="short">Sat</span>
+            </th>
+            <th>
+              <span class="day">7</span>
+              <span class="long">Sunday</span>
+              <span class="short">Sun</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="hour" rowspan="1"><span>9:00</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+
+          
+          <tr>
+            <td class="hour" rowspan="1"><span>14:00</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          
+          <tr>
+            <td class="hour" rowspan="1"><span>19:00</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          
+        </tbody>
+      </table>
 {%endblock%}
 
 {% block script %} 
 <script>
     var current = -1
     var month = 0
+    var data = JSON.parse("{{data|escapejs}}");
+
+    const monthlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    var d = new Date();
+
     function next(){
         const list = document.getElementById("date-group");
         current += 1
         while (list.hasChildNodes()) {
         list.removeChild(list.firstChild);
         }
-        var data = JSON.parse("{{data|escapejs}}");
         
         if (current == data[month].length) {
             month += 1
@@ -61,13 +152,8 @@ Appoinment
             }
 
         }
-        // let's just print the data in the console for now
-        var temp = `<li>
-            <p>${data[month][current]}</p>
-        <li>
-        `
         
-        document.getElementById("date-group").innerHTML += temp;
+        change_values()
       
     }
     function previous(){
@@ -76,24 +162,46 @@ Appoinment
         while (list.hasChildNodes()) {
         list.removeChild(list.firstChild);
         }
-        var data = JSON.parse("{{data|escapejs}}");
         
         if (current <= -1) {
             month -= 1
-            current = 0
             if (month <= -1){
                 month = data.length-1
+                current = data[month].length-1
             }
-
+            else{
+            current = data[month].length-1
+            }
         }
-        // let's just print the data in the console for now
-        var temp = `<li>
-            <p>${data[month][current]}</p>
-        <li>
-        `
         
-        document.getElementById("date-group").innerHTML += temp;
+        change_values()
       
+    }
+
+    function change_values(){
+        // let's just print the data in the console for now
+        var d = new Date(data[month][current][3])
+        var monthtext = monthlist[d.getMonth()];
+        document.getElementById("monthl").innerHTML = monthtext + " "+d.getFullYear();
+        document.getElementById("months").innerHTML = monthtext + " "+d.getFullYear();
+
+
+        var monhml = `<h3>${monthtext}</h3>`
+
+        document.getElementById("date-group").innerHTML += monhml;
+
+        var dayslist = document.getElementsByClassName("day");
+
+        data[month][current].forEach(myFunction);
+
+        function myFunction(value, index, arr) {
+        var temp = `<li>
+            <p>${value}</p>
+        <li>`
+        document.getElementById("date-group").innerHTML += temp;
+        var current_date = new Date(value)
+        dayslist[index].innerHTML = current_date.getDate()	
+        }
     }
     
   </script>

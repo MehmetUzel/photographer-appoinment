@@ -22,11 +22,11 @@ def get_days_for_next_four_months():
         current_li = list(obj.monthdatescalendar(year, x))
         if current_li[0] == last_week:
             current_li.pop(0)
-        for day in current_li:
-            print(day[3].strftime("%B"))
-            for x in day:
-                print(x)
-            print()
+        # for day in current_li:
+        #     print(day[3].strftime("%B"))
+        #     for x in day:
+        #         print(x)
+        #     print()
         days.append(current_li)
         last_week = current_li[-1]
 
