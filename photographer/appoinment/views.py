@@ -4,9 +4,10 @@ import locale
 import datetime
 from django.core.serializers.json import DjangoJSONEncoder
 import json
+from .models import Appoinment,OffDays
 
 def get_days_for_next_four_months():
-    locale.setlocale(locale.LC_ALL, 'turkish')
+    locale.setlocale(locale.LC_ALL, 'turkish') # Add this to setting so that it will be easier to change locale
     obj = calendar.Calendar()
     last_week = []
     days = []
@@ -35,6 +36,7 @@ def get_days_for_next_four_months():
 def appoinment(response):
     days = get_days_for_next_four_months()
     data = json.dumps(days,sort_keys=True,indent=1,cls=DjangoJSONEncoder)
+    appoinments = Appoinment.objects.filter(date__range = (days[0][0][0],days[-1][-1][-1]))
+    offdays = OffDays.objects.filter(date__range = (days[0][0][0],days[-1][-1][-1]))
 
-
-    return render(response, "appoinment/appoinment.html", {'days':days,'data':data})
+    return render(response, "appoinment/appoinment.html", {'data':data,'appoinment':appoinments,'offday':offdays})

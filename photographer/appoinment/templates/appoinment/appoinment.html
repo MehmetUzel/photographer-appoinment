@@ -9,6 +9,14 @@ Appoinment
 <input type="submit" id='opp' value="Previous" onclick="previous()">
 <input type="submit" id='opp' value="Next" onclick="next()">
 </div>
+Appoinment
+{% for a in appoinment %}
+<p> {{a.date}} - {{a.time}}</p>
+{% endfor %}
+OffDay
+{% for b in offday %}
+<p> {{b.date}} - {{b.time}}</p>
+{% endfor %}
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,7 +69,7 @@ Appoinment
             <td class="hour" rowspan="1"><span>9:00</span></td>
             <td></td>
             <td></td>
-            <td></td>
+            <td>dolu</td>
             <td></td>
             <td></td>
             <td></td>
@@ -76,7 +84,7 @@ Appoinment
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
+            <td>boş</td>
             <td></td>
             <td></td>
           </tr>
@@ -88,13 +96,14 @@ Appoinment
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
+            <td>dolu</td>
             <td></td>
           </tr>
 
           
         </tbody>
       </table>
+
 {%endblock%}
 
 {% block script %} 
