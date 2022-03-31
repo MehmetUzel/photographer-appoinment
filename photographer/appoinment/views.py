@@ -5,6 +5,8 @@ import datetime
 from django.core.serializers.json import DjangoJSONEncoder
 import json
 from .models import Appoinment,OffDays
+from django.core.serializers import serialize
+
 
 def get_days_for_next_four_months():
     locale.setlocale(locale.LC_ALL, 'turkish') # Add this to setting so that it will be easier to change locale
@@ -33,10 +35,34 @@ def get_days_for_next_four_months():
 
     return days
 
+def add_appoinments_offdays(days_dict, app_off):
+    for x in app_off:
+        date_of_x = x.date.strftime("%Y-%m-%d")
+        if date_of_x in days_dict.keys():
+            days_dict[date_of_x].append(x.time)
+        else:
+            days_dict[date_of_x] = [x.time]
+    return days_dict
+
 def appoinment(response):
     days = get_days_for_next_four_months()
     data = json.dumps(days,sort_keys=True,indent=1,cls=DjangoJSONEncoder)
+    
     appoinments = Appoinment.objects.filter(date__range = (days[0][0][0],days[-1][-1][-1]))
     offdays = OffDays.objects.filter(date__range = (days[0][0][0],days[-1][-1][-1]))
+    
+    #appoinment_to_pass = json.dumps(list(appoinments),sort_keys=True,indent=1,cls=DjangoJSONEncoder)
+    #offday_to_pass = json.dumps(list(offdays),sort_keys=True,indent=1,cls=DjangoJSONEncoder)
 
-    return render(response, "appoinment/appoinment.html", {'data':data,'appoinment':appoinments,'offday':offdays})
+    days_dict = {}
+    days_dict = add_appoinments_offdays(days_dict, appoinments)
+    days_dict = add_appoinments_offdays(days_dict, offdays)
+
+    #weekly_table_entries = json.dumps(list(days_dict),sort_keys=True,indent=1,cls=DjangoJSONEncoder)
+    weekly_table_entries = json.dumps(days_dict) 
+
+
+    print(weekly_table_entries)
+
+
+    return render(response, "appoinment/appoinment.html", {'data':data,'week':weekly_table_entries})
