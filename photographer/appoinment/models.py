@@ -17,6 +17,9 @@ class Appoinment(models.Model):
     time = models.CharField(max_length=30, choices=TIMES)
     creation_date = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return ("Appoinment" + self.date.strftime("%Y-%m-%d") + "\'s  " +self.time)
+
 
 class OffDays(models.Model):
     MORNING = 'OFFMO'
@@ -32,3 +35,6 @@ class OffDays(models.Model):
 
     date = models.DateField()
     time = models.CharField(max_length=30, choices=TIMES)
+
+    def __str__(self):
+        return ("Off Day " + self.date.strftime("%Y-%m-%d") + "\'s  " +self.time)

@@ -9,7 +9,7 @@ from django.core.serializers import serialize
 
 
 def get_days_for_next_four_months():
-    locale.setlocale(locale.LC_ALL, 'turkish') # Add this to setting so that it will be easier to change locale
+    #locale.setlocale(locale.LC_ALL, 'turkish') # Add this to setting so that it will be easier to change locale
     obj = calendar.Calendar()
     last_week = []
     days = []
