@@ -31,7 +31,7 @@ Appoinment
             </th>
             <th>
               <span class="day">3</span>
-              <span class="long">Wendsday</span>
+              <span class="long">Wednesday</span>
               <span class="short">We</span>
             </th>
             <th>
@@ -57,7 +57,7 @@ Appoinment
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr id="morning">
             <td class="hour" rowspan="1"><span>9:00</span></td>
             <td></td>
             <td></td>
@@ -70,7 +70,7 @@ Appoinment
 
 
           
-          <tr>
+          <tr id="noon">
             <td class="hour" rowspan="1"><span>14:00</span></td>
             <td></td>
             <td></td>
@@ -81,7 +81,7 @@ Appoinment
             <td></td>
           </tr>
           
-          <tr>
+          <tr id="evening">
             <td class="hour" rowspan="1"><span>19:00</span></td>
             <td></td>
             <td></td>
@@ -95,6 +95,7 @@ Appoinment
           
         </tbody>
       </table>
+
 {%endblock%}
 
 {% block script %} 
@@ -102,6 +103,7 @@ Appoinment
     var current = -1
     var month = 0
     var data = JSON.parse("{{data|escapejs}}");
+    var week_entry = JSON.parse("{{week|escapejs}}");
 
     const monthlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -141,7 +143,6 @@ Appoinment
     }
 
     function change_values(){
-        // let's just print the data in the console for now
         var d = new Date(data[month][current][3])
         var monthtext = monthlist[d.getMonth()];
         document.getElementById("monthl").innerHTML = monthtext + " "+d.getFullYear();
@@ -156,8 +157,55 @@ Appoinment
 
         function myFunction(value, index, arr) {
         var current_date = new Date(value)
+        add_info_appoinment_offday(value)
         dayslist[index].innerHTML = current_date.getDate()	
         }
+    }
+
+    function add_info_appoinment_offday(day_to_fill){
+        console.log(week_entry[day_to_fill])
+        var dt = new Date(day_to_fill)
+        var day_of_week = (dt.getDay() +1) % 7
+        
+        if (week_entry[day_to_fill]){
+        week_entry[day_to_fill].forEach(add_to_cal);
+        }
+        function add_to_cal(day_slot) {
+          console.log(day_slot.includes("OFF"))
+          console.log(day_of_week)
+
+          if (day_slot.includes("OFF")){
+            if (day_slot.includes("MO")){
+                document.getElementById("morning").childNodes[day_of_week+1].innerHTML = "İZİN";
+            }
+            else if (day_slot.includes("NO")){
+              document.getElementById("noon").childNodes[day_of_week+1].innerHTML = "İZİN";
+            }
+            else if (day_slot.includes("EV")){
+              document.getElementById("evening").childNodes[day_of_week+1].innerHTML = "İZİN";
+            }
+            else if (day_slot.includes("ALL")){
+              document.getElementById("morning").childNodes[day_of_week+1].innerHTML = "İZİN";
+              document.getElementById("noon").childNodes[day_of_week+1].innerHTML = "İZİN";
+              document.getElementById("evening").childNodes[day_of_week+1].innerHTML = "İZİN";
+
+            }
+          }
+          else {
+            if (day_slot.includes("MO")){
+                document.getElementById("morning").childNodes[day_of_week+1].innerHTML = "DOLU";
+            }
+            else if (day_slot.includes("NO")){
+              document.getElementById("noon").childNodes[day_of_week+1].innerHTML = "DOLU";
+            }
+            else if (day_slot.includes("EV")){
+              document.getElementById("evening").childNodes[day_of_week+1].innerHTML = "DOLU";
+            }
+          } 
+        }
+        
+
+
     }
     
   </script>

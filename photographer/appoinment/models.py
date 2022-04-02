@@ -19,10 +19,10 @@ class Appoinment(models.Model):
 
 
 class OffDays(models.Model):
-    MORNING = 'MO'
-    NOON = 'NO'
-    EVENING = 'EV'
-    ALLDAY = 'ALL'
+    MORNING = 'OFFMO'
+    NOON = 'OFFNO'
+    EVENING = 'OFFEV'
+    ALLDAY = 'OFFALL'
     TIMES = [
         (MORNING, 'Morning'),
         (NOON, 'Noon'),
