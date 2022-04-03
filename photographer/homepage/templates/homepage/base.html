@@ -33,10 +33,14 @@
               <ul>
                 <li><a href="/home/">Anasayfa</a></li>
                 <li><a href="/appoinment/">Appoinment</a></li>
+                {% if request.user.is_authenticated %}
                 <li><a href="/profileaddress/">Address</a></li>
                 <li><a href="/userprofile/">Kullanıcı Profil</a></li>
+                <li id="signup"><a href="/accounts/logout/">Çıkış</a></li>
+                {% else %}
                 <li id="login"><a href="/login/" >Login</a></li>
                 <li id="signup"><a href="/register/">Signup</a></li>
+                {% endif %}
               </ul>
             </nav>
             <div id="hamburger-icon" onclick="toggleMobileMenu(this)">

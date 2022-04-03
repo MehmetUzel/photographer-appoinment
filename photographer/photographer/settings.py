@@ -138,3 +138,8 @@ AUTH_USER_MODEL = 'user.User'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'statics'),
 ]
+
+LOGIN_REDIRECT_URL = "/home/"
+
+LOGOUT_REDIRECT_URL = "/home/"
+

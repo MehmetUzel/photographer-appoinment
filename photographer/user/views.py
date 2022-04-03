@@ -4,6 +4,7 @@ from user.models import Address,User
 from .forms import RegisterForm,LoginForm,ProfileForm,PartialProfileForm,PartialUserProfileForm
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
+from django.conf import settings
 #from cart.models import Cart
 # Create your views here.
 
@@ -13,7 +14,7 @@ def register(response):
         if form.is_valid():
             form.save()
             #user_cart = Cart(user = form.)
-            return redirect("/home")
+            return redirect(settings.LOGIN_REDIRECT_URL)
 
     else:
         form = RegisterForm()
@@ -34,7 +35,7 @@ def login(request):
                 if request.GET['next']:
                     return redirect(request.GET['next'])
             except Exception as e:
-                return redirect('/home')
+                return redirect(settings.LOGIN_REDIRECT_URL)
         else:
             messages.info(request, f'account does not exist plz sign in')
     form = LoginForm()
