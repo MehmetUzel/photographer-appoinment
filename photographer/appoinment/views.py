@@ -6,6 +6,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 import json
 from .models import Appoinment,OffDays
 from django.core.serializers import serialize
+from django.http import JsonResponse
 
 
 def get_days_for_next_four_months():
@@ -44,25 +45,24 @@ def add_appoinments_offdays(days_dict, app_off):
             days_dict[date_of_x] = [x.time]
     return days_dict
 
-def appoinment(response):
+def appoinment_data(response):
     days = get_days_for_next_four_months()
-    data = json.dumps(days,sort_keys=True,indent=1,cls=DjangoJSONEncoder)
+    #data = json.dumps(days,sort_keys=True,indent=1,cls=DjangoJSONEncoder)
     
     appoinments = Appoinment.objects.filter(date__range = (days[0][0][0],days[-1][-1][-1]))
     offdays = OffDays.objects.filter(date__range = (days[0][0][0],days[-1][-1][-1]))
     
-    #appoinment_to_pass = json.dumps(list(appoinments),sort_keys=True,indent=1,cls=DjangoJSONEncoder)
-    #offday_to_pass = json.dumps(list(offdays),sort_keys=True,indent=1,cls=DjangoJSONEncoder)
 
     days_dict = {}
     days_dict = add_appoinments_offdays(days_dict, appoinments)
     days_dict = add_appoinments_offdays(days_dict, offdays)
 
-    #weekly_table_entries = json.dumps(list(days_dict),sort_keys=True,indent=1,cls=DjangoJSONEncoder)
-    weekly_table_entries = json.dumps(days_dict) 
+    #weekly_table_entries = json.dumps(days_dict) 
 
 
-    print(weekly_table_entries)
+    #return JsonResponse({'data':data,'week':weekly_table_entries})
+    return JsonResponse({'data':list(days),'week':days_dict})
 
+def appoinment(response):
 
-    return render(response, "appoinment/appoinment.html", {'data':data,'week':weekly_table_entries})
+    return render(response, "appoinment/appoinment.html")
