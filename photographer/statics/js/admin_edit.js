@@ -129,15 +129,16 @@ function getCookie(name) {
       }
     }
     function appoinment_add_button(current_date,i){
-        morning_row.children[i].innerHTML = '<button onclick="add_appoinment(\''+current_date+'\',\'MO\')">AL</button>';
-        noon_row.children[i].innerHTML = '<button onclick="add_appoinment(\''+current_date+'\',\'NO\')">AL</button>';
-        evening_row.children[i].innerHTML = '<button onclick="add_appoinment(\''+current_date+'\',\'EV\')">AL</button>';
+        morning_row.children[i].innerHTML = '<div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+current_date+'\',\'MO\')">AL</button><button onclick="add_offday(\''+current_date+'\',\'OFFMO\')">İZ</button></div>';
+        noon_row.children[i].innerHTML = '<div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+current_date+'\',\'NO\')">AL</button><button onclick="add_offday(\''+current_date+'\',\'OFFNO\')">İZ</button></div>';
+        evening_row.children[i].innerHTML = '<div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+current_date+'\',\'EV\')">AL</button><button onclick="add_offday(\''+current_date+'\',\'OFFEV\')">İZ</button></div>';
     }
 
-    function add_appoinment(date_app,time_app){
+    function add_appoinment(date_app,time_app,is_add = true){
         var data = {
             app_date: date_app,
             app_time: time_app,
+            app_add: is_add,
             csrfmiddlewaretoken: csrftoken,
           }
           $.ajax({
@@ -151,7 +152,31 @@ function getCookie(name) {
               change_values();
               console.log("finished fetching")
             })
+    }
+
+    function add_offday(date_app,time_app,is_add = true){
+        var data = {
+            off_date: date_app,
+            off_time: time_app,
+            off_add: is_add,
+            csrfmiddlewaretoken: csrftoken,
+          }
+          $.ajax({
+            url: '/appoinment/admin/offday/',
+            type: 'POST',
+            dataType: 'json',
+            data: data
+          }).done(function(response) {
+              console.log("success") 
+              get_week_data();
+              change_values();
+              console.log("finished fetching")
+            })
         
+    }
+
+    function prepare_deletion_html(date_to_delete, time_to_delete, typeof_entry){
+        return '<div style="text-align: center;"><p>\''+typeof_entry+'\'</p><div style="display: flex; justify-content: space-evenly;"><button onclick="add_offday(\''+date_to_delete+'\',\''+time_to_delete+'\',false)">SİL</button></div></div>';
     }
 
     function add_info_appoinment_offday(day_to_fill){
@@ -161,6 +186,7 @@ function getCookie(name) {
         console.log(day_to_fill)
         console.log(dt.getDay())
         var day_of_week = (((dt.getDay() +6) % 7))+1
+
         
         if (week_entry[day_to_fill]){
         week_entry[day_to_fill].forEach(add_to_cal);
@@ -170,7 +196,7 @@ function getCookie(name) {
 
           if (day_slot.includes("OFF")){
             if (day_slot.includes("MO")){
-                morning_row.children[day_of_week].innerHTML = "İZİN";
+                morning_row.children[day_of_week].innerHTML = prepare_deletion_html(day_to_fill, "OFFMO", "İZİN");
                 morning_row.children[day_of_week].style.backgroundColor = 'blue';
             }
             else if (day_slot.includes("NO")){
@@ -189,8 +215,6 @@ function getCookie(name) {
               morning_row.children[day_of_week].style.backgroundColor = 'blue';
               noon_row.children[day_of_week].style.backgroundColor = 'blue';
               evening_row.children[day_of_week].style.backgroundColor = 'blue';
-
-
             }
           }
           else {
