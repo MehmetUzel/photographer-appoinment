@@ -35,18 +35,23 @@ def get_days_for_next_four_months():
     return days
 
 
-def combine_off_and_app_days():
-    days = get_days_for_next_four_months()
+def combine_off_and_app_days(days,response):
     
     appoinments = Appoinment.objects.filter(date__range = (days[0][0][0],days[-1][-1][-1]))
     offdays = OffDays.objects.filter(date__range = (days[0][0][0],days[-1][-1][-1]))
-    
+    current_user = response.user
+    user_appoinment = Appoinment.objects.filter(date__range =(days[0][0][0],days[-1][-1][-1]),user = current_user)
+
+    if user_appoinment.exists():
+        has_appoinment = True
+    else:
+        has_appoinment = False
 
     days_dict = {}
     days_dict = add_appoinments_offdays(days_dict, appoinments)
     days_dict = add_appoinments_offdays(days_dict, offdays)
 
-    return days_dict
+    return days_dict, has_appoinment
 
 
 def add_appoinments_offdays(days_dict, app_off):
@@ -60,15 +65,16 @@ def add_appoinments_offdays(days_dict, app_off):
 
 def appoinment_data(response):
     days = get_days_for_next_four_months()
+    days_dict,has_appoinment = combine_off_and_app_days(days,response)
 
-    days_dict = combine_off_and_app_days()
-
-    return JsonResponse({'data':list(days),'week':days_dict})
+    return JsonResponse({'data':list(days),'week':days_dict,'has_app':has_appoinment})
 
 
 def get_week_data(response):
-    days_dict = combine_off_and_app_days()
-    return JsonResponse({'week':days_dict})
+    days = get_days_for_next_four_months()
+    days_dict,has_appoinment = combine_off_and_app_days(days,response)
+
+    return JsonResponse({'week':days_dict,'has_app':has_appoinment})
 
 
 @login_required
@@ -83,7 +89,7 @@ def admin_edit(response):
 @login_required
 def add_appoinment(response):
     #ToDo Check is date valid
-    app_add = response.POST.get('app_add')
+    app_add = response.POST.get('app_add') #If false it means we are doing deletion
     app_date = response.POST.get('app_date')
     app_time = response.POST.get('app_time')
 
@@ -111,7 +117,7 @@ def add_appoinment(response):
 def add_offday(response):
     #ToDo *** Admin user required
     if response.user.is_admin:
-        off_add = response.POST.get('off_add')
+        off_add = response.POST.get('off_add')#If false it means we are doing deletion
         off_date = response.POST.get('off_date')
         off_time = response.POST.get('off_time')
 
