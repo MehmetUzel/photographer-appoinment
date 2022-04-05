@@ -175,8 +175,12 @@ function getCookie(name) {
         
     }
 
-    function prepare_deletion_html(date_to_delete, time_to_delete, typeof_entry){
-        return '<div style="text-align: center;"><p>\''+typeof_entry+'\'</p><div style="display: flex; justify-content: space-evenly;"><button onclick="add_offday(\''+date_to_delete+'\',\''+time_to_delete+'\',false)">SİL</button></div></div>';
+    function prepare_off_deletion_html(date_to_delete, time_to_delete){
+        return '<div style="text-align: center;"><p>İZİN</p><div style="display: flex; justify-content: space-evenly;"><button onclick="add_offday(\''+date_to_delete+'\',\''+time_to_delete+'\',false)">SİL</button></div></div>';
+    }
+
+    function prepare_app_deletion_html(date_to_delete, time_to_delete){
+        return '<div style="text-align: center;"><p>DOLU</p><div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+date_to_delete+'\',\''+time_to_delete+'\',false)">SİL</button></div></div>';
     }
 
     function add_info_appoinment_offday(day_to_fill){
@@ -196,20 +200,20 @@ function getCookie(name) {
 
           if (day_slot.includes("OFF")){
             if (day_slot.includes("MO")){
-                morning_row.children[day_of_week].innerHTML = prepare_deletion_html(day_to_fill, "OFFMO", "İZİN");
+                morning_row.children[day_of_week].innerHTML = prepare_off_deletion_html(day_to_fill, "OFFMO");
                 morning_row.children[day_of_week].style.backgroundColor = 'blue';
             }
             else if (day_slot.includes("NO")){
-              noon_row.children[day_of_week].innerHTML = "İZİN";
+              noon_row.children[day_of_week].innerHTML = prepare_off_deletion_html(day_to_fill, "OFFNO");
               noon_row.children[day_of_week].style.backgroundColor = 'blue';
             }
             else if (day_slot.includes("EV")){
-              evening_row.children[day_of_week].innerHTML = "İZİN";
+              evening_row.children[day_of_week].innerHTML = prepare_off_deletion_html(day_to_fill, "OFFEV");
               evening_row.children[day_of_week].style.backgroundColor = 'blue';
 
             }
             else if (day_slot.includes("ALL")){
-              morning_row.children[day_of_week].innerHTML = "İZİN";
+              morning_row.children[day_of_week].innerHTML = prepare_off_deletion_html(day_to_fill, "OFFALL");;
               noon_row.children[day_of_week].innerHTML = "İZİN";
               evening_row.children[day_of_week].innerHTML = "İZİN";
               morning_row.children[day_of_week].style.backgroundColor = 'blue';
@@ -219,17 +223,17 @@ function getCookie(name) {
           }
           else {
             if (day_slot.includes("MO")){
-              morning_row.children[day_of_week].innerHTML = "DOLU";
+              morning_row.children[day_of_week].innerHTML = prepare_app_deletion_html(day_to_fill, "MO");
               morning_row.children[day_of_week].style.backgroundColor = 'red';
 
             }
             else if (day_slot.includes("NO")){
-              noon_row.children[day_of_week].innerHTML = "DOLU";
+              noon_row.children[day_of_week].innerHTML = prepare_app_deletion_html(day_to_fill, "NO");
               noon_row.children[day_of_week].style.backgroundColor = 'red';
 
             }
             else if (day_slot.includes("EV")){
-              evening_row.children[day_of_week].innerHTML = "DOLU";
+              evening_row.children[day_of_week].innerHTML = prepare_app_deletion_html(day_to_fill, "EV");
               evening_row.children[day_of_week].style.backgroundColor = 'red';
 
             }

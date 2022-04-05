@@ -87,7 +87,8 @@ def add_appoinment(response):
     app_date = response.POST.get('app_date')
     app_time = response.POST.get('app_time')
 
-    if app_add: 
+    if app_add == "true": 
+        print("hell")
         current_user = response.user
 
         appoinment_new_item = Appoinment(user = current_user, date = app_date, time=app_time)
@@ -96,6 +97,7 @@ def add_appoinment(response):
         return JsonResponse({"result": "success"}, status=200)
 
     elif response.user.is_admin:
+        print("heaven")
         item = Appoinment.objects.filter(date = app_date, time=app_time)
         if item.exists():
             item.delete()
@@ -113,16 +115,16 @@ def add_offday(response):
         off_date = response.POST.get('off_date')
         off_time = response.POST.get('off_time')
 
-        if off_add :
+        if off_add == "true":
             offday_new_item = OffDays(date = off_date, time=off_time)
             offday_new_item.save()
+            print("yes problem")
             return JsonResponse({"result": "success"}, status=200)
 
         else : 
-            item = OffDays(date = off_date, time=off_time)
+            item = OffDays.objects.filter(date = off_date, time=off_time)
             if item.exists():
                 item.delete()
-                print("yes problem")
                 return JsonResponse({"result": "success"}, status=200)
     #search for django error results
     return JsonResponse({"result": "success"}, status=400)
