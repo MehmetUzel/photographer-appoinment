@@ -16,23 +16,16 @@
     </head>
 
     <body>
-        {% comment %} <div class="sidenav">
-            <a href="/home">Anasayfa</a>
-            <a href="/profile">Profil</a>
-            <a href="/login">Oturum Aç</a>
-            <a href="/register">Üye Ol</a>
-            <a href="/appoinment">Appoinments</a>
-            <a href="/profileaddress">Address</a>
-            <a href="/userprofile">Kullanıcı Profil</a>
-        </div> {% endcomment %}
-
 
           <header>
-            <div id="brand"><a href="/">Flora Film Baby</a></div>
+            <div id="brand"><a href="/home/">Flora Film Baby</a></div>
             <nav>
               <ul>
                 <li><a href="/home/">Anasayfa</a></li>
                 <li><a href="/appoinment/">Appoinment</a></li>
+                {% if user.is_admin %}
+                <li><a href="/appoinment/admin/">Admin Edit</a></li>
+                {% endif %}
                 {% if request.user.is_authenticated %}
                 <li><a href="/profileaddress/">Address</a></li>
                 <li><a href="/userprofile/">Kullanıcı Profil</a></li>

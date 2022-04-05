@@ -25,7 +25,6 @@ function getCookie(name) {
     var month = 0
     var data 
     var week_entry 
-    var has_appo
     var morning_row = document.getElementById("morning")
     var noon_row = document.getElementById("noon")
     var evening_row = document.getElementById("evening")
@@ -43,7 +42,6 @@ function getCookie(name) {
           }).done(function(response) {
               data = response.data
               week_entry = response.week
-              has_appo = response.has_app
               get_this_week();
             })
     }
@@ -56,7 +54,6 @@ function getCookie(name) {
             data: req_data
           }).done(function(response) {
               week_entry = response.week
-              has_appo = response.has_app
               get_this_week();
             })
     }
@@ -119,9 +116,7 @@ function getCookie(name) {
 
         function myFunction(value, index, arr) {
         var current_date = new Date(value)
-        if (has_appo == false){
-          appoinment_add_button(value,index+1);
-        }
+        appoinment_add_button(value,index+1)
         add_info_appoinment_offday(value)
         dayslist[index].innerHTML = current_date.getDate()	
         }
@@ -131,22 +126,19 @@ function getCookie(name) {
         morning_row.children[i].style.backgroundColor = null;
         noon_row.children[i].style.backgroundColor = null;
         evening_row.children[i].style.backgroundColor = null;
-        morning_row.children[i].innerHTML = null;
-        noon_row.children[i].innerHTML = null;
-        evening_row.children[i].innerHTML = null;
       }
     }
     function appoinment_add_button(current_date,i){
-        morning_row.children[i].innerHTML = '<button onclick="add_appoinment(\''+current_date+'\',\'MO\')">AL</button>';
-        noon_row.children[i].innerHTML = '<button onclick="add_appoinment(\''+current_date+'\',\'NO\')">AL</button>';
-        evening_row.children[i].innerHTML = '<button onclick="add_appoinment(\''+current_date+'\',\'EV\')">AL</button>';
+        morning_row.children[i].innerHTML = '<div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+current_date+'\',\'MO\')">AL</button><button onclick="add_offday(\''+current_date+'\',\'OFFMO\')">İZ</button></div>';
+        noon_row.children[i].innerHTML = '<div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+current_date+'\',\'NO\')">AL</button><button onclick="add_offday(\''+current_date+'\',\'OFFNO\')">İZ</button></div>';
+        evening_row.children[i].innerHTML = '<div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+current_date+'\',\'EV\')">AL</button><button onclick="add_offday(\''+current_date+'\',\'OFFEV\')">İZ</button></div>';
     }
 
-    function add_appoinment(date_app,time_app){
+    function add_appoinment(date_app,time_app,is_add = true){
         var data = {
             app_date: date_app,
             app_time: time_app,
-            app_add: true,
+            app_add: is_add,
             csrfmiddlewaretoken: csrftoken,
           }
           $.ajax({
@@ -160,7 +152,35 @@ function getCookie(name) {
               change_values();
               console.log("finished fetching")
             })
+    }
+
+    function add_offday(date_app,time_app,is_add = true){
+        var data = {
+            off_date: date_app,
+            off_time: time_app,
+            off_add: is_add,
+            csrfmiddlewaretoken: csrftoken,
+          }
+          $.ajax({
+            url: '/appoinment/admin/offday/',
+            type: 'POST',
+            dataType: 'json',
+            data: data
+          }).done(function(response) {
+              console.log("success") 
+              get_week_data();
+              change_values();
+              console.log("finished fetching")
+            })
         
+    }
+
+    function prepare_off_deletion_html(date_to_delete, time_to_delete){
+        return '<div style="text-align: center;"><p>İZİN</p><div style="display: flex; justify-content: space-evenly;"><button onclick="add_offday(\''+date_to_delete+'\',\''+time_to_delete+'\',false)">SİL</button></div></div>';
+    }
+
+    function prepare_app_deletion_html(date_to_delete, time_to_delete){
+        return '<div style="text-align: center;"><p>DOLU</p><div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+date_to_delete+'\',\''+time_to_delete+'\',false)">SİL</button></div></div>';
     }
 
     function add_info_appoinment_offday(day_to_fill){
@@ -170,6 +190,7 @@ function getCookie(name) {
         console.log(day_to_fill)
         console.log(dt.getDay())
         var day_of_week = (((dt.getDay() +6) % 7))+1
+
         
         if (week_entry[day_to_fill]){
         week_entry[day_to_fill].forEach(add_to_cal);
@@ -179,42 +200,40 @@ function getCookie(name) {
 
           if (day_slot.includes("OFF")){
             if (day_slot.includes("MO")){
-                morning_row.children[day_of_week].innerHTML = "İZİN";
+                morning_row.children[day_of_week].innerHTML = prepare_off_deletion_html(day_to_fill, "OFFMO");
                 morning_row.children[day_of_week].style.backgroundColor = 'blue';
             }
             else if (day_slot.includes("NO")){
-              noon_row.children[day_of_week].innerHTML = "İZİN";
+              noon_row.children[day_of_week].innerHTML = prepare_off_deletion_html(day_to_fill, "OFFNO");
               noon_row.children[day_of_week].style.backgroundColor = 'blue';
             }
             else if (day_slot.includes("EV")){
-              evening_row.children[day_of_week].innerHTML = "İZİN";
+              evening_row.children[day_of_week].innerHTML = prepare_off_deletion_html(day_to_fill, "OFFEV");
               evening_row.children[day_of_week].style.backgroundColor = 'blue';
 
             }
             else if (day_slot.includes("ALL")){
-              morning_row.children[day_of_week].innerHTML = "İZİN";
+              morning_row.children[day_of_week].innerHTML = prepare_off_deletion_html(day_to_fill, "OFFALL");;
               noon_row.children[day_of_week].innerHTML = "İZİN";
               evening_row.children[day_of_week].innerHTML = "İZİN";
               morning_row.children[day_of_week].style.backgroundColor = 'blue';
               noon_row.children[day_of_week].style.backgroundColor = 'blue';
               evening_row.children[day_of_week].style.backgroundColor = 'blue';
-
-
             }
           }
           else {
             if (day_slot.includes("MO")){
-              morning_row.children[day_of_week].innerHTML = "DOLU";
+              morning_row.children[day_of_week].innerHTML = prepare_app_deletion_html(day_to_fill, "MO");
               morning_row.children[day_of_week].style.backgroundColor = 'red';
 
             }
             else if (day_slot.includes("NO")){
-              noon_row.children[day_of_week].innerHTML = "DOLU";
+              noon_row.children[day_of_week].innerHTML = prepare_app_deletion_html(day_to_fill, "NO");
               noon_row.children[day_of_week].style.backgroundColor = 'red';
 
             }
             else if (day_slot.includes("EV")){
-              evening_row.children[day_of_week].innerHTML = "DOLU";
+              evening_row.children[day_of_week].innerHTML = prepare_app_deletion_html(day_to_fill, "EV");
               evening_row.children[day_of_week].style.backgroundColor = 'red';
 
             }
