@@ -138,6 +138,7 @@ function getCookie(name) {
         var data = {
             app_date: date_app,
             app_time: time_app,
+            app_add: true,
             csrfmiddlewaretoken: csrftoken,
           }
           $.ajax({
