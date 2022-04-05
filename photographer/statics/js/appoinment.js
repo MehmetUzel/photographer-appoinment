@@ -25,6 +25,7 @@ function getCookie(name) {
     var month = 0
     var data 
     var week_entry 
+    var has_appo
     var morning_row = document.getElementById("morning")
     var noon_row = document.getElementById("noon")
     var evening_row = document.getElementById("evening")
@@ -42,6 +43,7 @@ function getCookie(name) {
           }).done(function(response) {
               data = response.data
               week_entry = response.week
+              has_appo = response.has_app
               get_this_week();
             })
     }
@@ -54,6 +56,7 @@ function getCookie(name) {
             data: req_data
           }).done(function(response) {
               week_entry = response.week
+              has_appo = response.has_app
               get_this_week();
             })
     }
@@ -116,7 +119,9 @@ function getCookie(name) {
 
         function myFunction(value, index, arr) {
         var current_date = new Date(value)
-        appoinment_add_button(value,index+1)
+        if (has_appo == false){
+          appoinment_add_button(value,index+1);
+        }
         add_info_appoinment_offday(value)
         dayslist[index].innerHTML = current_date.getDate()	
         }
@@ -126,6 +131,9 @@ function getCookie(name) {
         morning_row.children[i].style.backgroundColor = null;
         noon_row.children[i].style.backgroundColor = null;
         evening_row.children[i].style.backgroundColor = null;
+        morning_row.children[i].innerHTML = null;
+        noon_row.children[i].innerHTML = null;
+        evening_row.children[i].innerHTML = null;
       }
     }
     function appoinment_add_button(current_date,i){

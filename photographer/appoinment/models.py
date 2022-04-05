@@ -18,7 +18,7 @@ class Appoinment(models.Model):
     creation_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return ("Appoinment" + self.date.strftime("%Y-%m-%d") + "\'s  " +self.time)
+        return ("Appoinment" + self.date.strftime("%Y-%m-%d") + self.user.email + "\'s  " +self.time)
 
 
 class OffDays(models.Model):
