@@ -23,14 +23,16 @@ function getCookie(name) {
 
     var current = -1
     var month = 0
-    var data 
-    var week_entry 
+    var data //days for calendar
+    var week_entry //appoinments and offdays data
+    var users
     var morning_row = document.getElementById("morning")
     var noon_row = document.getElementById("noon")
     var evening_row = document.getElementById("evening")
 
     $(document).ready(function(){
         get_data();
+        get_user_data();
     });
 
     function get_data(){
@@ -57,6 +59,18 @@ function getCookie(name) {
               get_this_week();
             })
     }
+
+    function get_user_data(){
+      $.ajax({
+          url: '/appoinment/admin/users/',
+          type: 'POST',
+          dataType: 'json',
+          data: req_data
+        }).done(function(response) {
+            users = response.user_app
+            get_this_week();
+          })
+  }
 
 
     const monthlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -149,6 +163,7 @@ function getCookie(name) {
           }).done(function(response) {
               console.log("success") 
               get_week_data();
+              get_user_data();
               change_values();
               console.log("finished fetching")
             })
@@ -179,8 +194,8 @@ function getCookie(name) {
         return '<div style="text-align: center;"><p>İZİN</p><div style="display: flex; justify-content: space-evenly;"><button onclick="add_offday(\''+date_to_delete+'\',\''+time_to_delete+'\',false)">SİL</button></div></div>';
     }
 
-    function prepare_app_deletion_html(date_to_delete, time_to_delete){
-        return '<div style="text-align: center;"><p>DOLU</p><div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+date_to_delete+'\',\''+time_to_delete+'\',false)">SİL</button></div></div>';
+    function prepare_app_deletion_html(date_to_delete, time_to_delete,user){
+        return '<div style="text-align: center;"><p>DOLU<br>'+ user +'</p><div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+date_to_delete+'\',\''+time_to_delete+'\',false)">SİL</button></div></div>';
     }
 
     function add_info_appoinment_offday(day_to_fill){
@@ -195,7 +210,7 @@ function getCookie(name) {
         if (week_entry[day_to_fill]){
         week_entry[day_to_fill].forEach(add_to_cal);
         }
-        function add_to_cal(day_slot) {
+        function add_to_cal(day_slot,index) {
           console.log(day_of_week)
 
           if (day_slot.includes("OFF")){
@@ -223,17 +238,17 @@ function getCookie(name) {
           }
           else {
             if (day_slot.includes("MO")){
-              morning_row.children[day_of_week].innerHTML = prepare_app_deletion_html(day_to_fill, "MO");
+              morning_row.children[day_of_week].innerHTML = prepare_app_deletion_html(day_to_fill, "MO",users[day_to_fill][index].substr(0, users[day_to_fill][index].indexOf("@")));
               morning_row.children[day_of_week].style.backgroundColor = 'red';
 
             }
             else if (day_slot.includes("NO")){
-              noon_row.children[day_of_week].innerHTML = prepare_app_deletion_html(day_to_fill, "NO");
+              noon_row.children[day_of_week].innerHTML = prepare_app_deletion_html(day_to_fill, "NO",users[day_to_fill][index].substr(0, users[day_to_fill][index].indexOf("@")));
               noon_row.children[day_of_week].style.backgroundColor = 'red';
 
             }
             else if (day_slot.includes("EV")){
-              evening_row.children[day_of_week].innerHTML = prepare_app_deletion_html(day_to_fill, "EV");
+              evening_row.children[day_of_week].innerHTML = prepare_app_deletion_html(day_to_fill, "EV",users[day_to_fill][index].substr(0, users[day_to_fill][index].indexOf("@")));
               evening_row.children[day_of_week].style.backgroundColor = 'red';
 
             }
