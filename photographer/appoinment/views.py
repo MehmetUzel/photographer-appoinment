@@ -44,6 +44,7 @@ def combine_off_and_app_days(days,response):
 
     if user_appoinment.exists():
         has_appoinment = True
+
     else:
         has_appoinment = False
 
@@ -87,14 +88,13 @@ def admin_edit(response):
 
 #add deletion to method name
 @login_required
-def add_appoinment(response):
+def add_or_delete_appoinment(response):
     #ToDo Check is date valid
     app_add = response.POST.get('app_add') #If false it means we are doing deletion
     app_date = response.POST.get('app_date')
     app_time = response.POST.get('app_time')
 
     if app_add == "true": 
-        print("hell")
         current_user = response.user
 
         appoinment_new_item = Appoinment(user = current_user, date = app_date, time=app_time)
@@ -103,18 +103,25 @@ def add_appoinment(response):
         return JsonResponse({"result": "success"}, status=200)
 
     elif response.user.is_admin:
-        print("heaven")
         item = Appoinment.objects.filter(date = app_date, time=app_time)
         if item.exists():
             item.delete()
             return JsonResponse({"result": "success"}, status=200)
+
+    else:
+        item = Appoinment.objects.filter(date = app_date, time=app_time)
+        if item.exists():
+            print(response.user == item[0].user)
+            if response.user == item[0].user:
+                item.delete()
+                return JsonResponse({"result": "success"}, status=200)
         
     #search for django error results
     return JsonResponse({"result": "success"}, status=400)
 
 #add deletion to method name
 @login_required
-def add_offday(response):
+def add_or_delete_offday(response):
     #ToDo *** Admin user required
     if response.user.is_admin:
         off_add = response.POST.get('off_add')#If false it means we are doing deletion
@@ -124,7 +131,6 @@ def add_offday(response):
         if off_add == "true":
             offday_new_item = OffDays(date = off_date, time=off_time)
             offday_new_item.save()
-            print("yes problem")
             return JsonResponse({"result": "success"}, status=200)
 
         else : 
@@ -134,3 +140,28 @@ def add_offday(response):
                 return JsonResponse({"result": "success"}, status=200)
     #search for django error results
     return JsonResponse({"result": "success"}, status=400)
+
+def user_info_for_admin(response):
+    days = get_days_for_next_four_months()
+    appoinments = Appoinment.objects.filter(date__range = (days[0][0][0],days[-1][-1][-1]))
+    apps_dict={}
+    for x in appoinments:
+        date_of_x = x.date.strftime("%Y-%m-%d")
+        if date_of_x in apps_dict.keys():
+            apps_dict[date_of_x].append(x.user.email)
+        else:
+            apps_dict[date_of_x] = [x.user.email]
+    
+
+    return JsonResponse({'user_app':apps_dict})
+
+def user_app_info(response):
+    days = get_days_for_next_four_months()
+    current_user = response.user
+    user_appoinment = Appoinment.objects.filter(date__range =(days[0][0][0],days[-1][-1][-1]),user = current_user)
+
+    if user_appoinment.exists():
+        return JsonResponse({'user_app_date':user_appoinment[0].date.strftime("%Y-%m-%d"),'user_app_time':user_appoinment[0].time,'user_name':user_appoinment[0].user.email})
+    else:
+        return JsonResponse({'user_app_date':None,'user_app_time':None,'user_name':None})
+

@@ -26,6 +26,9 @@ function getCookie(name) {
     var data 
     var week_entry 
     var has_appo
+    var user_apdate
+    var user_aptime
+    var user_name
     var morning_row = document.getElementById("morning")
     var noon_row = document.getElementById("noon")
     var evening_row = document.getElementById("evening")
@@ -44,7 +47,12 @@ function getCookie(name) {
               data = response.data
               week_entry = response.week
               has_appo = response.has_app
-              get_this_week();
+              if (has_appo == true){
+                get_data_user();
+              }
+              else{
+                get_this_week();
+              }
             })
     }
 
@@ -57,9 +65,28 @@ function getCookie(name) {
           }).done(function(response) {
               week_entry = response.week
               has_appo = response.has_app
-              get_this_week();
+              if (has_appo == true){
+                get_data_user();
+              }
+              else{
+                get_this_week();
+              }
             })
     }
+
+    function get_data_user(){
+      $.ajax({
+          url: '/appoinment/users/data/',
+          type: 'POST',
+          dataType: 'json',
+          data: req_data
+        }).done(function(response) {
+            user_apdate = response.user_app_date
+            user_aptime = response.user_app_time
+            user_name = response.user_name
+            get_this_week();
+          })
+  }
 
 
     const monthlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -123,6 +150,11 @@ function getCookie(name) {
           appoinment_add_button(value,index+1);
         }
         add_info_appoinment_offday(value)
+        console.log(value)
+        console.log(user_apdate)
+        if(value == user_apdate){
+        show_users_appoinment(value,user_aptime,user_name)
+        }
         dayslist[index].innerHTML = current_date.getDate()	
         }
     }
@@ -142,40 +174,57 @@ function getCookie(name) {
         evening_row.children[i].innerHTML = '<button onclick="add_appoinment(\''+current_date+'\',\'EV\')">AL</button>';
     }
 
-    function add_appoinment(date_app,time_app){
-        var data = {
-            app_date: date_app,
-            app_time: time_app,
-            app_add: true,
-            csrfmiddlewaretoken: csrftoken,
-          }
-          $.ajax({
-            url: '/appoinment/add/',
-            type: 'POST',
-            dataType: 'json',
-            data: data
-          }).done(function(response) {
-              console.log("success") 
-              get_week_data();
-              change_values();
-              console.log("finished fetching")
-            })
-        
+    function add_appoinment(date_app,time_app,is_add = true){
+      var data = {
+          app_date: date_app,
+          app_time: time_app,
+          app_add: is_add,
+          csrfmiddlewaretoken: csrftoken,
+        }
+        $.ajax({
+          url: '/appoinment/add/',
+          type: 'POST',
+          dataType: 'json',
+          data: data
+        }).done(function(response) {
+            console.log("success") 
+            get_week_data();
+            get_data_user();
+            change_values();
+            console.log("finished fetching")
+          })
+  }
+
+    // function add_appoinment(date_app,time_app){
+    //     var data = {
+    //         app_date: date_app,
+    //         app_time: time_app,
+    //         app_add: true,
+    //         csrfmiddlewaretoken: csrftoken,
+    //       }
+    //       $.ajax({
+    //         url: '/appoinment/add/',
+    //         type: 'POST',
+    //         dataType: 'json',
+    //         data: data
+    //       }).done(function(response) {
+    //           get_week_data();
+    //           change_values();
+    //         }) 
+    // }
+
+    function prepare_app_deletion_html(date_to_delete, time_to_delete,user){
+      return '<div style="text-align: center;"><p>DOLU<br>'+ user +'</p><div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+date_to_delete+'\',\''+time_to_delete+'\',false)">SİL</button></div></div>';
     }
 
     function add_info_appoinment_offday(day_to_fill){
-        console.log("start")
-        console.log(week_entry[day_to_fill])
         var dt = new Date(day_to_fill)
-        console.log(day_to_fill)
-        console.log(dt.getDay())
-        var day_of_week = (((dt.getDay() +6) % 7))+1
+        var day_of_week = (((dt.getDay() +6) % 7))+1 //To change starting of week as monday - getDay method assumes sunday as first day of week
         
         if (week_entry[day_to_fill]){
         week_entry[day_to_fill].forEach(add_to_cal);
         }
         function add_to_cal(day_slot) {
-          console.log(day_of_week)
 
           if (day_slot.includes("OFF")){
             if (day_slot.includes("MO")){
@@ -221,7 +270,23 @@ function getCookie(name) {
           } 
         }
         
-        console.log("end")
+    }
+    function show_users_appoinment(date_of_app,slot,name){
+      var dt = new Date(date_of_app)
+      var day_of_week = (((dt.getDay() +6) % 7))+1
+      if (slot.includes("MO")){
+        morning_row.children[day_of_week].innerHTML = prepare_app_deletion_html(date_of_app, "MO",name.substr(0, name.indexOf("@")));
+        morning_row.children[day_of_week].style.backgroundColor = 'red';
 
+      }
+      else if (slot.includes("NO")){
+        noon_row.children[day_of_week].innerHTML = prepare_app_deletion_html(date_of_app, "NO",name.substr(0, name.indexOf("@")));
+        noon_row.children[day_of_week].style.backgroundColor = 'red';
 
+      }
+      else if (slot.includes("EV")){
+        evening_row.children[day_of_week].innerHTML = prepare_app_deletion_html(date_of_app, "EV",name.substr(0, name.indexOf("@")));
+        evening_row.children[day_of_week].style.backgroundColor = 'red';
+
+      }
     }
