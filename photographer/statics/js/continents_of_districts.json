@@ -1,42 +1,42 @@
-{
-      "Adalar":"Anadolu",
-      "Arnavutköy":"Avrupa",
-      "Ataşehir":"Anadolu",
-      "Avcılar":"Avrupa",
-      "Bağcılar":"Avrupa",
-      "Bahçelievler":"Avrupa",
-      "Bakırköy":"Avrupa",
-      "Başakşehir":"Avrupa",
-      "Bayrampaşa":"Avrupa",
-      "Beşiktaş":"Avrupa",
-      "Beykoz":"Anadolu",
-      "Beylikdüzü":"Avrupa",
-      "Beyoğlu":"Avrupa",
-      "Büyükçekmece":"Avrupa",
-      "Çatalca":"Avrupa",
-      "Çekmeköy":"Anadolu",
-      "Esenler":"Avrupa",
-      "Esenyurt":"Avrupa",
-      "Eyüp":"Avrupa",
-      "Fatih":"Avrupa",
-      "Gaziosmanpaşa":"Avrupa",
-      "Güngören":"Avrupa",
-      "Kadıköy":"Anadolu",
-      "Kağıthane":"Avrupa",
-      "Kartal":"Anadolu",
-      "Küçükçekmece":"Avrupa",
-      "Maltepe":"Anadolu",
-      "Pendik":"Anadolu",
-      "Sancaktepe":"Anadolu",
-      "Sarıyer":"Avrupa",
-      "Silivri":"Avrupa",
-      "Sultanbeyli":"Anadolu",
-      "Sultangazi":"Avrupa",
-      "Şile":"Anadolu",
-      "Şişli":"Avrupa",
-      "Tuzla":"Anadolu",
-      "Ümraniye":"Anadolu",
-      "Üsküdar":"Anadolu",
-      "Zeytinburnu": "Avrupa"
-}
+[
+      {"name":"Adalar","continent":"Anadolu"}
+      ,{"name":"Arnavutköy","continent":"Avrupa"}
+      ,{"name":"Ataşehir","continent":"Anadolu"}
+      ,{"name":"Avcılar","continent":"Avrupa"}
+      ,{"name":"Bağcılar","continent":"Avrupa"}
+      ,{"name":"Bahçelievler","continent":"Avrupa"}
+      ,{"name":"Bakırköy","continent":"Avrupa"}
+      ,{"name":"Başakşehir","continent":"Avrupa"}
+      ,{"name":"Bayrampaşa","continent":"Avrupa"}
+      ,{"name":"Beşiktaş","continent":"Avrupa"}
+      ,{"name":"Beykoz","continent":"Anadolu"}
+      ,{"name":"Beylikdüzü","continent":"Avrupa"}
+      ,{"name":"Beyoğlu","continent":"Avrupa"}
+      ,{"name":"Büyükçekmece","continent":"Avrupa"}
+      ,{"name":"Çatalca","continent":"Avrupa"}
+      ,{"name":"Çekmeköy","continent":"Anadolu"}
+      ,{"name":"Esenler","continent":"Avrupa"}
+      ,{"name":"Esenyurt","continent":"Avrupa"}
+      ,{"name":"Eyüp","continent":"Avrupa"}
+      ,{"name":"Fatih","continent":"Avrupa"}
+      ,{"name":"Gaziosmanpaşa","continent":"Avrupa"}
+      ,{"name":"Güngören","continent":"Avrupa"}
+      ,{"name":"Kadıköy","continent":"Anadolu"}
+      ,{"name":"Kağıthane","continent":"Avrupa"}
+      ,{"name":"Kartal","continent":"Anadolu"}
+      ,{"name":"Küçükçekmece","continent":"Avrupa"}
+      ,{"name":"Maltepe","continent":"Anadolu"}
+      ,{"name":"Pendik","continent":"Anadolu"}
+      ,{"name":"Sancaktepe","continent":"Anadolu"}
+      ,{"name":"Sarıyer","continent":"Avrupa"}
+      ,{"name":"Silivri","continent":"Avrupa"}
+      ,{"name":"Sultanbeyli","continent":"Anadolu"}
+      ,{"name":"Sultangazi","continent":"Avrupa"}
+      ,{"name":"Şile","continent":"Anadolu"}
+      ,{"name":"Şişli","continent":"Avrupa"}
+      ,{"name":"Tuzla","continent":"Anadolu"}
+      ,{"name":"Ümraniye","continent":"Anadolu"}
+      ,{"name":"Üsküdar","continent":"Anadolu"}
+      ,{"name":"Zeytinburnu","continent": "Avrupa"}
+]
   
