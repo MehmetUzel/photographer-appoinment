@@ -17,6 +17,7 @@ def get_days_for_next_four_months():
     obj = calendar.Calendar()
     last_week = []
     days = []
+    current_day = datetime.date.today()
     month = datetime.date.today().month
     year = datetime.date.today().year
     lastmonth = month+4
@@ -31,8 +32,18 @@ def get_days_for_next_four_months():
             current_li.pop(0)
         days.append(current_li)
         last_week = current_li[-1]
-
+    
+    # for x in days:
+    #     for i in x:
+    #         for y in i:
+    #             if y < current_day:
+    #                 print(y)
+    #                 i.remove(y)
+    #             else:
+    #                 return days
     return days
+
+
 
 
 def combine_off_and_app_days(days,response):

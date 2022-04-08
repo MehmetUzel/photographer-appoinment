@@ -1,4 +1,3 @@
-
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -161,11 +160,9 @@ function getCookie(name) {
             dataType: 'json',
             data: data
           }).done(function(response) {
-              console.log("success") 
               get_week_data();
               get_user_data();
               change_values();
-              console.log("finished fetching")
             })
     }
 
@@ -182,10 +179,8 @@ function getCookie(name) {
             dataType: 'json',
             data: data
           }).done(function(response) {
-              console.log("success") 
               get_week_data();
               change_values();
-              console.log("finished fetching")
             })
         
     }
@@ -199,11 +194,7 @@ function getCookie(name) {
     }
 
     function add_info_appoinment_offday(day_to_fill){
-        console.log("start")
-        console.log(week_entry[day_to_fill])
         var dt = new Date(day_to_fill)
-        console.log(day_to_fill)
-        console.log(dt.getDay())
         var day_of_week = (((dt.getDay() +6) % 7))+1
 
         
@@ -211,7 +202,6 @@ function getCookie(name) {
         week_entry[day_to_fill].forEach(add_to_cal);
         }
         function add_to_cal(day_slot,index) {
-          console.log(day_of_week)
 
           if (day_slot.includes("OFF")){
             if (day_slot.includes("MO")){
@@ -224,15 +214,6 @@ function getCookie(name) {
             }
             else if (day_slot.includes("EV")){
               evening_row.children[day_of_week].innerHTML = prepare_off_deletion_html(day_to_fill, "OFFEV");
-              evening_row.children[day_of_week].style.backgroundColor = 'blue';
-
-            }
-            else if (day_slot.includes("ALL")){
-              morning_row.children[day_of_week].innerHTML = prepare_off_deletion_html(day_to_fill, "OFFALL");;
-              noon_row.children[day_of_week].innerHTML = "İZİN";
-              evening_row.children[day_of_week].innerHTML = "İZİN";
-              morning_row.children[day_of_week].style.backgroundColor = 'blue';
-              noon_row.children[day_of_week].style.backgroundColor = 'blue';
               evening_row.children[day_of_week].style.backgroundColor = 'blue';
             }
           }
@@ -250,12 +231,7 @@ function getCookie(name) {
             else if (day_slot.includes("EV")){
               evening_row.children[day_of_week].innerHTML = prepare_app_deletion_html(day_to_fill, "EV",users[day_to_fill][index].substr(0, users[day_to_fill][index].indexOf("@")));
               evening_row.children[day_of_week].style.backgroundColor = 'red';
-
             }
           } 
         }
-        
-        console.log("end")
-
-
     }
