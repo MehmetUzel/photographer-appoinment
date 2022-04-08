@@ -81,3 +81,6 @@ class Address(models.Model):
     def __str__(self):
         return (self.user.email +"'s "+self.name+" address")
 
+class District(models.Model):
+    name = models.CharField(max_length=40)
+    continent = models.CharField(max_length=15)

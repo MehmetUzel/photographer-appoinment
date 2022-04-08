@@ -1,9 +1,11 @@
 from django import forms
 from django.contrib import admin
-from .models import User,Address
+from .models import User,Address,District
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 
 
 class UserCreationForm(forms.ModelForm):
@@ -75,9 +77,21 @@ class UserAdmin(BaseUserAdmin):
     ordering = ('email',)
     filter_horizontal = ()
 
+class DistrictResource(resources.ModelResource):
+    class Meta:
+        model = District
+
+    def skip_row(self, instance, original):
+    
+        return True if District.objects.filter(name=instance.name).exists() else False
+
+class DistrictAdmin(ImportExportModelAdmin):
+    resource_class = DistrictResource
+
 # Now register the new UserAdmin...
 admin.site.register(User, UserAdmin)
 admin.site.register(Address)
+admin.site.register(District,DistrictAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)

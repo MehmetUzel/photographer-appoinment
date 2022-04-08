@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'homepage.apps.HomepageConfig',
     'appoinment.apps.AppoinmentConfig',
-    'crispy_forms'
+    'crispy_forms',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -144,5 +145,7 @@ LOGIN_REDIRECT_URL = "/home/"
 LOGOUT_REDIRECT_URL = "/home/"
 
 LOGIN_URL = "/login/"
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 
