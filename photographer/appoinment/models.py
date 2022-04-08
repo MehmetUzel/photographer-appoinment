@@ -25,12 +25,10 @@ class OffDays(models.Model):
     MORNING = 'OFFMO'
     NOON = 'OFFNO'
     EVENING = 'OFFEV'
-    ALLDAY = 'OFFALL'
     TIMES = [
         (MORNING, 'Morning'),
         (NOON, 'Noon'),
         (EVENING, 'Evening'),
-        (ALLDAY, 'AllDay'),
     ]
 
     date = models.DateField()

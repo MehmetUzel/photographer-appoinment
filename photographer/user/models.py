@@ -37,6 +37,8 @@ class User(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     phone = models.CharField(max_length=20)

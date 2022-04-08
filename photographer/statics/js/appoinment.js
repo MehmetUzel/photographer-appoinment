@@ -1,11 +1,9 @@
-
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
         const cookies = document.cookie.split(';');
         for (let i = 0; i < cookies.length; i++) {
             const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
@@ -195,23 +193,6 @@ function getCookie(name) {
           })
   }
 
-    // function add_appoinment(date_app,time_app){
-    //     var data = {
-    //         app_date: date_app,
-    //         app_time: time_app,
-    //         app_add: true,
-    //         csrfmiddlewaretoken: csrftoken,
-    //       }
-    //       $.ajax({
-    //         url: '/appoinment/add/',
-    //         type: 'POST',
-    //         dataType: 'json',
-    //         data: data
-    //       }).done(function(response) {
-    //           get_week_data();
-    //           change_values();
-    //         }) 
-    // }
 
     function prepare_app_deletion_html(date_to_delete, time_to_delete,user){
       return '<div style="text-align: center;"><p>DOLU<br>'+ user +'</p><div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+date_to_delete+'\',\''+time_to_delete+'\',false)">SİL</button></div></div>';
@@ -226,51 +207,26 @@ function getCookie(name) {
         }
         function add_to_cal(day_slot) {
 
-          if (day_slot.includes("OFF")){
-            if (day_slot.includes("MO")){
-                morning_row.children[day_of_week].innerHTML = "İZİN";
-                morning_row.children[day_of_week].style.backgroundColor = 'blue';
-            }
-            else if (day_slot.includes("NO")){
-              noon_row.children[day_of_week].innerHTML = "İZİN";
-              noon_row.children[day_of_week].style.backgroundColor = 'blue';
-            }
-            else if (day_slot.includes("EV")){
-              evening_row.children[day_of_week].innerHTML = "İZİN";
-              evening_row.children[day_of_week].style.backgroundColor = 'blue';
-
-            }
-            else if (day_slot.includes("ALL")){
-              morning_row.children[day_of_week].innerHTML = "İZİN";
-              noon_row.children[day_of_week].innerHTML = "İZİN";
-              evening_row.children[day_of_week].innerHTML = "İZİN";
-              morning_row.children[day_of_week].style.backgroundColor = 'blue';
-              noon_row.children[day_of_week].style.backgroundColor = 'blue';
-              evening_row.children[day_of_week].style.backgroundColor = 'blue';
-
-
-            }
-          }
-          else {
-            if (day_slot.includes("MO")){
-              morning_row.children[day_of_week].innerHTML = "DOLU";
-              morning_row.children[day_of_week].style.backgroundColor = 'red';
-
-            }
-            else if (day_slot.includes("NO")){
-              noon_row.children[day_of_week].innerHTML = "DOLU";
-              noon_row.children[day_of_week].style.backgroundColor = 'red';
-
-            }
-            else if (day_slot.includes("EV")){
-              evening_row.children[day_of_week].innerHTML = "DOLU";
-              evening_row.children[day_of_week].style.backgroundColor = 'red';
-
-            }
-          } 
+          colorize_week_slots(day_of_week, "DOLU", "red",day_slot) 
         }
         
     }
+
+    function colorize_week_slots(day_of_week, text_of_slot, color_of_slot,day_slot){
+      if (day_slot.includes("MO")){
+        morning_row.children[day_of_week].innerHTML =  text_of_slot;
+        morning_row.children[day_of_week].style.backgroundColor = color_of_slot;
+      }
+      else if (day_slot.includes("NO")){
+        noon_row.children[day_of_week].innerHTML =  text_of_slot;
+        noon_row.children[day_of_week].style.backgroundColor = color_of_slot;
+      }
+      else if (day_slot.includes("EV")){
+        evening_row.children[day_of_week].innerHTML =  text_of_slot;
+        evening_row.children[day_of_week].style.backgroundColor = color_of_slot;
+      }
+    }
+
     function show_users_appoinment(date_of_app,slot,name){
       var dt = new Date(date_of_app)
       var day_of_week = (((dt.getDay() +6) % 7))+1
