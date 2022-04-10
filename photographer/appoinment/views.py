@@ -5,6 +5,7 @@ import datetime
 from django.core.serializers.json import DjangoJSONEncoder
 import json
 from .models import Appoinment,OffDays
+from user.models import Address,User
 from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, permission_required
@@ -179,3 +180,15 @@ def user_app_info(response):
     else:
         return JsonResponse({'user_app_date':None,'user_app_time':None,'user_name':None})
 
+def get_user_for_app(response):
+    app_date = response.POST.get('app_date')
+    app_time = response.POST.get('app_time')
+
+    user_appoinment = Appoinment.objects.filter(date=app_date,time=app_time)
+    app_user = user_appoinment[0].user
+    address = Address.objects.filter(user=app_user)
+
+    if response.user.is_admin and user_appoinment.exists():
+        return JsonResponse({'city':address[0].city,'district':address[0].district.name,'neigbourhood':address[0].neighbourhood})
+    else:
+        return JsonResponse({"result": "unauthorized"}, status=400)

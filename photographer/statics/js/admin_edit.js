@@ -165,6 +165,23 @@ function getCookie(name) {
               change_values();
             })
     }
+    function get_info_appoinment(date_app,time_app){
+      var data = {
+          app_date: date_app,
+          app_time: time_app,
+          csrfmiddlewaretoken: csrftoken,
+        }
+        $.ajax({
+          url: '/appoinment/admin/appoinment_info/',
+          type: 'POST',
+          dataType: 'json',
+          data: data
+        }).done(function(response) {
+            get_week_data();
+            get_user_data();
+            change_values();
+          })
+  }
 
     function add_offday(date_app,time_app,is_add = true){
         var data = {
