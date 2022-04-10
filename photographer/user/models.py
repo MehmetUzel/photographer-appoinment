@@ -67,11 +67,18 @@ class User(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+class District(models.Model):
+    name = models.CharField(max_length=40)
+    continent = models.CharField(max_length=15)
+
+    def __str__(self):
+        return (self.name +" - "+self.continent)
+
 class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
-    district = models.CharField(max_length=100)
+    district = models.ForeignKey(District, on_delete=models.CASCADE)
     neighbourhood = models.CharField(max_length=100)
     street_name = models.CharField(max_length=100)
     building_num = models.CharField(max_length=10)
@@ -81,6 +88,3 @@ class Address(models.Model):
     def __str__(self):
         return (self.user.email +"'s "+self.name+" address")
 
-class District(models.Model):
-    name = models.CharField(max_length=40)
-    continent = models.CharField(max_length=15)

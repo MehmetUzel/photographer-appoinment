@@ -47,8 +47,11 @@ def get_days_for_next_four_months():
 
 
 def combine_off_and_app_days(days,response):
-    
-    appoinments = Appoinment.objects.filter(date__range = (days[0][0][0],days[-1][-1][-1]))
+    if response.user.is_admin:
+        appoinments = Appoinment.objects.filter(date__range = (days[0][0][0],days[-1][-1][-1]))
+    else:
+        appoinments = Appoinment.objects.filter(date__range = (days[0][0][0],days[-1][-1][-1]),status = "APR")
+
     offdays = OffDays.objects.filter(date__range = (days[0][0][0],days[-1][-1][-1]))
     current_user = response.user
     user_appoinment = Appoinment.objects.filter(date__range =(days[0][0][0],days[-1][-1][-1]),user = current_user)
