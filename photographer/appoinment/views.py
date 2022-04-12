@@ -189,6 +189,10 @@ def get_user_for_app(response):
     address = Address.objects.filter(user=app_user)
 
     if response.user.is_admin and user_appoinment.exists():
-        return JsonResponse({'city':address[0].city,'district':address[0].district.name,'neigbourhood':address[0].neighbourhood})
+        user_address_json = serialize('json', address)
+        #return JsonResponse({'city':address[0].city,'district':address[0].district.name,'neigbourhood':address[0].neighbourhood})
+        #return JsonResponse({"address":user_address_json}, status=200,safe=False)
+        return JsonResponse({"address":serialize("json",address),}, status=200,safe=False)
+#serialize('json', SomeModel.objects.all(), cls=LazyEncoder)
     else:
         return JsonResponse({"result": "unauthorized"}, status=400)

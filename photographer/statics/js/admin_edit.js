@@ -28,6 +28,7 @@ function getCookie(name) {
     var morning_row = document.getElementById("morning")
     var noon_row = document.getElementById("noon")
     var evening_row = document.getElementById("evening")
+    var user_address
 
     $(document).ready(function(){
         get_data();
@@ -177,9 +178,7 @@ function getCookie(name) {
           dataType: 'json',
           data: data
         }).done(function(response) {
-            get_week_data();
-            get_user_data();
-            change_values();
+            user_address = JSON.parse(response.address);
           })
   }
 
