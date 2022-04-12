@@ -30,6 +30,11 @@ function getCookie(name) {
     var evening_row = document.getElementById("evening")
     var user_address
 
+    var myModal = document.getElementById('exampleModal')
+
+    myModal.addEventListener('shown.bs.modal', function () {
+    })
+
     $(document).ready(function(){
         get_data();
         get_user_data();
