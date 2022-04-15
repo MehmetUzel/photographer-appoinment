@@ -5,6 +5,7 @@ import datetime
 from django.core.serializers.json import DjangoJSONEncoder
 import json
 from .models import Appoinment,OffDays
+from user.models import Address,User
 from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, permission_required
@@ -123,7 +124,7 @@ def add_or_delete_appoinment(response):
             return JsonResponse({"result": "success"}, status=200)
 
     else:
-        item = Appoinment.objects.filter(date = app_date, time=app_time)
+        item = Appoinment.objects.filter(date = app_date, time=app_time,user = response.user)
         if item.exists():
             print(response.user == item[0].user)
             if response.user == item[0].user:
@@ -162,9 +163,9 @@ def user_info_for_admin(response):
     for x in appoinments:
         date_of_x = x.date.strftime("%Y-%m-%d")
         if date_of_x in apps_dict.keys():
-            apps_dict[date_of_x].append(x.user.email)
+            apps_dict[date_of_x].append((x.user.first_name +" "+ x.user.last_name))
         else:
-            apps_dict[date_of_x] = [x.user.email]
+            apps_dict[date_of_x] = [(x.user.first_name +" "+ x.user.last_name)]
     
 
     return JsonResponse({'user_app':apps_dict})
@@ -179,3 +180,19 @@ def user_app_info(response):
     else:
         return JsonResponse({'user_app_date':None,'user_app_time':None,'user_name':None})
 
+def get_user_for_app(response):
+    app_date = response.POST.get('app_date')
+    app_time = response.POST.get('app_time')
+
+    user_appoinment = Appoinment.objects.filter(date=app_date,time=app_time)
+    app_user = user_appoinment[0].user
+    address = Address.objects.filter(user=app_user)
+
+    if response.user.is_admin and user_appoinment.exists():
+        user_address_json = serialize('json', address)
+        #return JsonResponse({'city':address[0].city,'district':address[0].district.name,'neigbourhood':address[0].neighbourhood})
+        #return JsonResponse({"address":user_address_json}, status=200,safe=False)
+        return JsonResponse({"address":serialize("json",address),}, status=200,safe=False)
+#serialize('json', SomeModel.objects.all(), cls=LazyEncoder)
+    else:
+        return JsonResponse({"result": "unauthorized"}, status=400)

@@ -251,3 +251,7 @@ ul li:hover {
     display: block;
   }
 }
+
+.modal-content{
+  background-color:#1d1f1d;
+}
