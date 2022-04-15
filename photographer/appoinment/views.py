@@ -124,7 +124,7 @@ def add_or_delete_appoinment(response):
             return JsonResponse({"result": "success"}, status=200)
 
     else:
-        item = Appoinment.objects.filter(date = app_date, time=app_time)
+        item = Appoinment.objects.filter(date = app_date, time=app_time,user = response.user)
         if item.exists():
             print(response.user == item[0].user)
             if response.user == item[0].user:
@@ -163,9 +163,9 @@ def user_info_for_admin(response):
     for x in appoinments:
         date_of_x = x.date.strftime("%Y-%m-%d")
         if date_of_x in apps_dict.keys():
-            apps_dict[date_of_x].append(x.user.email)
+            apps_dict[date_of_x].append((x.user.first_name +" "+ x.user.last_name))
         else:
-            apps_dict[date_of_x] = [x.user.email]
+            apps_dict[date_of_x] = [(x.user.first_name +" "+ x.user.last_name)]
     
 
     return JsonResponse({'user_app':apps_dict})
