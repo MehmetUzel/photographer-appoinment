@@ -195,7 +195,7 @@ function getCookie(name) {
 
 
     function prepare_app_deletion_html(date_to_delete, time_to_delete,user){
-      return '<div style="text-align: center;"><p>DOLU<br>'+ user +'</p><div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+date_to_delete+'\',\''+time_to_delete+'\',false)">SİL</button></div></div>';
+      return '<div style="text-align: center;"><p>DOLU<br>'+ user +'</p><div style="display: flex; justify-content: space-evenly;"><button class="btn-close" aria-label="Close" onclick="add_appoinment(\''+date_to_delete+'\',\''+time_to_delete+'\',false)"></button></div></div>';
     }
 
     function add_info_appoinment_offday(day_to_fill){

@@ -208,12 +208,9 @@ function getCookie(name) {
     }
 
     function prepare_off_deletion_html(date_to_delete, time_to_delete){
-        return '<div style="text-align: center;"><p>İZİN</p><div style="display: flex; justify-content: space-evenly;"><button onclick="add_offday(\''+date_to_delete+'\',\''+time_to_delete+'\',false)">SİL</button></div></div>';
+        return '<div style="text-align: center;"><div style="display: flex; justify-content: space-evenly;"><button class="btn-close" aria-label="Close" onclick="add_offday(\''+date_to_delete+'\',\''+time_to_delete+'\',false)"></button></div></div>';
     }
 
-    // function prepare_app_deletion_html(date_to_delete, time_to_delete,user){
-    //     return '<div style="text-align: center;"><p>DOLU<br>'+ user +'</p><div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+date_to_delete+'\',\''+time_to_delete+'\',false)">SİL</button></div></div>';
-    // }
     function prepare_addres_for_appointment(date_to_delete,time_to_delete){
       document.getElementById('im'+date_to_delete+"_"+time_to_delete).innerHTML = (user_address[0].fields.name+`<br>`+user_address[0].fields.city+`<br>`+user_address[0].fields.district+`<br>`+user_address[0].fields.neighbourhood+`<br>`+user_address[0].fields.street_name+`<br>`+user_address[0].fields.building_num+`<br>`+user_address[0].fields.flat_num+`<br>`+user_address[0].fields.address_instructions);
     }
@@ -221,8 +218,8 @@ function getCookie(name) {
     function prepare_app_deletion_html(date_to_delete, time_to_delete,user){
       let id_name = "m"+date_to_delete+"_"+time_to_delete;
       return `<div style="text-align: center;"><button onclick="get_info_appoinment('`+date_to_delete+`','`+time_to_delete+`')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#`+id_name+`">
-      Adres
-    </button><p>DOLU<br>`+ user +`</p><div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment('`+date_to_delete+`','`+time_to_delete+`',false)">SİL</button></div></div> 
+      `+user+`
+    </button><div style="display: flex; justify-content: space-evenly;"><button class="btn-close" aria-label="Close" onclick="add_appoinment('`+date_to_delete+`','`+time_to_delete+`',false)"></button></div></div> 
       <div class="modal fade" id="`+id_name+`" tabindex="-1" aria-labelledby="`+id_name+`Label" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
