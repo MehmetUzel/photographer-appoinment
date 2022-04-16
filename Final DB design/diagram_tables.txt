@@ -1,0 +1,100 @@
+// Creating tables
+Table user as U {
+  id int [pk, increment] // auto-increment
+  first_name varchar
+  last_name varchar
+  email varchar
+  phone varchar
+  password varchar
+  created_at timestamp
+}
+
+Table address {
+  id int [pk]
+  user_id int [ref: > U.id]
+  name varchar
+  city varchar [ref: > city.id]
+  district varchar [ref: > district.id]
+  street varchar
+  neighbourhood varchar
+  building_num varchar
+  flat_num varchar
+  instructions varchar
+ }
+ 
+Table district {
+  id int [pk]
+  city int [ref: > city.id]
+  name varchar
+ }
+
+Table city {
+  id int [pk]
+  name varchar
+ }
+
+
+Table shoot_plan {
+  id int [pk]
+  group varchar [note: 'default values']
+  album varchar [note: 'default values']
+  num_of_consept int
+  is_active boolean
+}
+
+Table consept_price {
+  id int [pk]
+  number_of_selection int
+  price int
+}
+
+Table album_price {
+  id int [pk]
+  type varchar
+  price int
+}
+
+
+Table consept {
+  id int [pk]
+  name varchar
+  is_active boolean
+}
+
+
+Table photo_consept {
+  id int [pk]
+  consept_id int  [ref: > consept.id]
+  url varchar
+}
+
+
+Table payment {
+  id int [pk]
+  shoot_id int [ref: - shoot_plan.id]
+  total int
+  payment_choice varchar
+}
+
+
+Table appoinment {
+  id int [pk] // primary key
+  user_id int [ref: > user.id]
+  shoot_id int [ref: > shoot_plan.id]
+  appoinment_date varchar [note: 'When order created'] // add column note
+  time varchar [ref: > shoot_time.time]
+  created_at varchar [note: 'When order created'] // add column note
+}
+
+Table off_days {
+  id int [pk]
+  off_date varchar [note: 'When order created'] // add column note
+  time varchar [ref: > shoot_time.time]
+  
+}
+
+Table shoot_time {
+  id int [pk]
+  time varchar [note: 'create calendar times based on this but dont query that one every time, render pages once it changes and serve them to user']
+}
+

@@ -9,7 +9,7 @@ CREATE TABLE "user" (
 );
 
 CREATE TABLE "address" (
-  "code" int PRIMARY KEY,
+  "id" int PRIMARY KEY,
   "user_id" int,
   "name" varchar,
   "city" varchar,
@@ -21,43 +21,60 @@ CREATE TABLE "address" (
   "instructions" varchar
 );
 
-CREATE TABLE "order_items" (
-  "order_id" int,
-  "product_id" int,
-  "quantity" int DEFAULT 1
-);
-
-CREATE TABLE "order" (
+CREATE TABLE "district" (
   "id" int PRIMARY KEY,
-  "user_id" int,
-  "status" varchar,
-  "created_at" varchar
+  "city" int,
+  "name" varchar
 );
 
-CREATE TABLE "product" (
+CREATE TABLE "city" (
+  "id" int PRIMARY KEY,
+  "name" varchar
+);
+
+CREATE TABLE "shoot_plan" (
+  "id" int PRIMARY KEY,
+  "group" varchar,
+  "album" varchar,
+  "num_of_consept" int,
+  "is_active" boolean
+);
+
+CREATE TABLE "consept_price" (
+  "id" int PRIMARY KEY,
+  "number_of_selection" int,
+  "price" int
+);
+
+CREATE TABLE "album_price" (
+  "id" int PRIMARY KEY,
+  "type" varchar,
+  "price" int
+);
+
+CREATE TABLE "consept" (
   "id" int PRIMARY KEY,
   "name" varchar,
-  "description" varchar,
-  "price" int,
   "is_active" boolean
+);
+
+CREATE TABLE "photo_consept" (
+  "id" int PRIMARY KEY,
+  "consept_id" int,
+  "url" varchar
 );
 
 CREATE TABLE "payment" (
   "id" int PRIMARY KEY,
-  "order_id" int,
+  "shoot_id" int,
   "total" int,
   "payment_choice" varchar
-);
-
-CREATE TABLE "photo" (
-  "id" int PRIMARY KEY,
-  "url" varchar,
-  "product_id" int
 );
 
 CREATE TABLE "appoinment" (
   "id" int PRIMARY KEY,
   "user_id" int,
+  "shoot_id" int,
   "appoinment_date" varchar,
   "time" varchar,
   "created_at" varchar
@@ -69,49 +86,39 @@ CREATE TABLE "off_days" (
   "time" varchar
 );
 
-CREATE TABLE "cart_items" (
+CREATE TABLE "shoot_time" (
   "id" int PRIMARY KEY,
-  "cart_id" int,
-  "product_id" int,
-  "quantity" int DEFAULT 1
-);
-
-CREATE TABLE "cart" (
-  "id" int PRIMARY KEY,
-  "user_id" int,
-  "created_at" varchar
+  "time" varchar
 );
 
 ALTER TABLE "address" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
 
-ALTER TABLE "order_items" ADD FOREIGN KEY ("order_id") REFERENCES "order" ("id");
+ALTER TABLE "address" ADD FOREIGN KEY ("city") REFERENCES "city" ("id");
 
-ALTER TABLE "order_items" ADD FOREIGN KEY ("product_id") REFERENCES "product" ("id");
+ALTER TABLE "address" ADD FOREIGN KEY ("district") REFERENCES "district" ("id");
 
-ALTER TABLE "order" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
+ALTER TABLE "district" ADD FOREIGN KEY ("city") REFERENCES "city" ("id");
 
-ALTER TABLE "payment" ADD FOREIGN KEY ("order_id") REFERENCES "order" ("id");
+ALTER TABLE "photo_consept" ADD FOREIGN KEY ("consept_id") REFERENCES "consept" ("id");
 
-ALTER TABLE "photo" ADD FOREIGN KEY ("product_id") REFERENCES "product" ("id");
+ALTER TABLE "payment" ADD FOREIGN KEY ("shoot_id") REFERENCES "shoot_plan" ("id");
 
 ALTER TABLE "appoinment" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
 
-ALTER TABLE "cart_items" ADD FOREIGN KEY ("cart_id") REFERENCES "cart" ("id");
+ALTER TABLE "appoinment" ADD FOREIGN KEY ("shoot_id") REFERENCES "shoot_plan" ("id");
 
-ALTER TABLE "cart_items" ADD FOREIGN KEY ("product_id") REFERENCES "product" ("id");
+ALTER TABLE "appoinment" ADD FOREIGN KEY ("time") REFERENCES "shoot_time" ("time");
 
-ALTER TABLE "cart" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
+ALTER TABLE "off_days" ADD FOREIGN KEY ("time") REFERENCES "shoot_time" ("time");
 
-COMMENT ON COLUMN "order"."created_at" IS 'When order created';
+COMMENT ON COLUMN "shoot_plan"."group" IS 'default values';
+
+COMMENT ON COLUMN "shoot_plan"."album" IS 'default values';
 
 COMMENT ON COLUMN "appoinment"."appoinment_date" IS 'When order created';
-
-COMMENT ON COLUMN "appoinment"."time" IS 'morning - noon - evening';
 
 COMMENT ON COLUMN "appoinment"."created_at" IS 'When order created';
 
 COMMENT ON COLUMN "off_days"."off_date" IS 'When order created';
 
-COMMENT ON COLUMN "off_days"."time" IS 'morning - noon - evening - all_day';
-
-COMMENT ON COLUMN "cart"."created_at" IS 'When cart created,  it will be reset when order is created';
+COMMENT ON COLUMN "shoot_time"."time" IS 'create calendar times based on this but dont query that one every time, render pages once it changes and serve them to user';
