@@ -1,3 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def photo_shoot(response):
+    return render(response, "photoshoot/shootplan.html")

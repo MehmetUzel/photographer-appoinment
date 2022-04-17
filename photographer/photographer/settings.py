@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'homepage.apps.HomepageConfig',
     'appoinment.apps.AppoinmentConfig',
+    'photoshoot.apps.PhotoshootConfig',
     'crispy_forms',
     'import_export',
 ]
