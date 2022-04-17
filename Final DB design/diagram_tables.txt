@@ -36,19 +36,20 @@ Table city {
 
 Table shoot_plan {
   id int [pk]
+  user_id int [ref: > user.id]
   group varchar [note: 'default values']
   album varchar [note: 'default values']
   num_of_consept int
   is_active boolean
 }
 
-Table consept_price {
+Table consept_info {
   id int [pk]
   number_of_selection int
   price int
 }
 
-Table album_price {
+Table album_info {
   id int [pk]
   type varchar
   price int
@@ -74,13 +75,13 @@ Table payment {
   shoot_id int [ref: - shoot_plan.id]
   total int
   payment_choice varchar
+  is_paid boolean
 }
 
 
 Table appoinment {
   id int [pk] // primary key
   user_id int [ref: > user.id]
-  shoot_id int [ref: > shoot_plan.id]
   appoinment_date varchar [note: 'When order created'] // add column note
   time varchar [ref: > shoot_time.time]
   created_at varchar [note: 'When order created'] // add column note
@@ -97,4 +98,17 @@ Table shoot_time {
   id int [pk]
   time varchar [note: 'create calendar times based on this but dont query that one every time, render pages once it changes and serve them to user']
 }
+
+Table shoot_appointment {
+  id int [pk]
+  shoot_id int [ref: > shoot_plan.id]
+  appoinment_id int [ref: > appoinment.id]
+}
+
+Table shoot_concept {
+  id int [pk]
+  shoot_id int [ref: > shoot_plan.id]
+  concept_id int [ref: > consept.id]
+}
+
 
