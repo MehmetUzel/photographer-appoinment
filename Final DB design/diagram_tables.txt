@@ -37,10 +37,11 @@ Table city {
 Table shoot_plan {
   id int [pk]
   user_id int [ref: > user.id]
-  group varchar [note: 'default values']
-  album varchar [note: 'default values']
-  num_of_consept int
+  type_id int [ref: > shoot_type.id]
+  album_id int [ref: > album_info.id]
+  num_of_concept int [ref: > consept_info.id]
   is_active boolean
+  created_at timestamp
 }
 
 Table consept_info {
@@ -58,6 +59,7 @@ Table album_info {
 
 Table consept {
   id int [pk]
+  type_id int [ref: > shoot_type.id]
   name varchar
   is_active boolean
 }
@@ -111,4 +113,7 @@ Table shoot_concept {
   concept_id int [ref: > consept.id]
 }
 
-
+Table shoot_type {
+  id int [pk]
+  name varchar
+}

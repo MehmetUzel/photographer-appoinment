@@ -35,10 +35,11 @@ CREATE TABLE "city" (
 CREATE TABLE "shoot_plan" (
   "id" int PRIMARY KEY,
   "user_id" int,
-  "group" varchar,
-  "album" varchar,
-  "num_of_consept" int,
-  "is_active" boolean
+  "type_id" int,
+  "album_id" int,
+  "num_of_concept" int,
+  "is_active" boolean,
+  "created_at" timestamp
 );
 
 CREATE TABLE "consept_info" (
@@ -55,6 +56,7 @@ CREATE TABLE "album_info" (
 
 CREATE TABLE "consept" (
   "id" int PRIMARY KEY,
+  "type_id" int,
   "name" varchar,
   "is_active" boolean
 );
@@ -104,6 +106,11 @@ CREATE TABLE "shoot_concept" (
   "concept_id" int
 );
 
+CREATE TABLE "shoot_type" (
+  "id" int PRIMARY KEY,
+  "name" varchar
+);
+
 ALTER TABLE "address" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
 
 ALTER TABLE "address" ADD FOREIGN KEY ("city") REFERENCES "city" ("id");
@@ -113,6 +120,14 @@ ALTER TABLE "address" ADD FOREIGN KEY ("district") REFERENCES "district" ("id");
 ALTER TABLE "district" ADD FOREIGN KEY ("city") REFERENCES "city" ("id");
 
 ALTER TABLE "shoot_plan" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
+
+ALTER TABLE "shoot_plan" ADD FOREIGN KEY ("type_id") REFERENCES "shoot_type" ("id");
+
+ALTER TABLE "shoot_plan" ADD FOREIGN KEY ("album_id") REFERENCES "album_info" ("id");
+
+ALTER TABLE "shoot_plan" ADD FOREIGN KEY ("num_of_concept") REFERENCES "consept_info" ("id");
+
+ALTER TABLE "consept" ADD FOREIGN KEY ("type_id") REFERENCES "shoot_type" ("id");
 
 ALTER TABLE "photo_consept" ADD FOREIGN KEY ("consept_id") REFERENCES "consept" ("id");
 
@@ -131,10 +146,6 @@ ALTER TABLE "shoot_appointment" ADD FOREIGN KEY ("appoinment_id") REFERENCES "ap
 ALTER TABLE "shoot_concept" ADD FOREIGN KEY ("shoot_id") REFERENCES "shoot_plan" ("id");
 
 ALTER TABLE "shoot_concept" ADD FOREIGN KEY ("concept_id") REFERENCES "consept" ("id");
-
-COMMENT ON COLUMN "shoot_plan"."group" IS 'default values';
-
-COMMENT ON COLUMN "shoot_plan"."album" IS 'default values';
 
 COMMENT ON COLUMN "appoinment"."appoinment_date" IS 'When order created';
 
