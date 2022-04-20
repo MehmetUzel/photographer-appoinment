@@ -1,5 +1,7 @@
 from django.shortcuts import render
+from .forms import ShootPlanForm
 
 
 def photo_shoot(response):
-    return render(response, "photoshoot/shootplan.html")
+    form = ShootPlanForm()
+    return render(response, "photoshoot/shootplan.html",{'form':form})

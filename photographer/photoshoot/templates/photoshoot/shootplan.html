@@ -2,8 +2,15 @@
 {% block title %}
 Seçim Ekranı
 {% endblock %}
+{% load crispy_forms_tags %}
 
 {%block content%}
 <h1>Seçim Ekranı</h1>
+<form method="post" class="form-group">
+    {%csrf_token %}
+    {{form|crispy}}
+    <button type="submit" class="btn btn-success">Register</button>
+</form>
+
 {%endblock%}
 
