@@ -1,0 +1,71 @@
+{% extends 'homepage/base.html' %}
+{% block title %}
+Konsept Ekranı
+{% endblock %}
+{% load crispy_forms_tags %}
+
+{%block content%}
+
+<h1> Konseptler </h1>
+<div class="slider-container">
+    <ul class="controls" id="customize-controls" aria-label="Carousel Navigation" tabindex="0">
+        <li class="prev" data-controls="prev" aria-controls="customize" tabindex="-1">
+            <i class="fas fa-angle-left fa-5x"></i>
+        </li>
+        <li class="next" data-controls="next" aria-controls="customize" tabindex="-1">
+            <i class="fas fa-angle-right fa-5x"></i>          
+        </li>
+    </ul>
+    <div class="my-slider">
+
+    {% for v in concept %}
+        <div class="slider-item">
+            <div class="card">                
+                <img src="{{v.file_url.url}}" alt="">
+                <h2>{{v.concept_id.name}}</h2>
+            </div>
+        </div>
+
+    {% endfor %}
+        
+    </div>    
+</div>
+
+
+{%endblock%}
+
+{% block script %}    
+
+{% load static %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.3.11/min/tiny-slider.js"></script>
+
+<script type="text/javascript">
+
+const slider = tns({
+    container: '.my-slider',
+    loop: true,
+    items: 1,
+    slideBy: 'page',
+    nav: false,    
+    speed: 400,
+    autoplayButtonOutput: false,
+    mouseDrag: true,
+    lazyload: true,
+    controlsContainer: "#customize-controls",
+    responsive: {
+        640: {
+            items: 2,
+        },
+        
+        768: {
+            items: 3,
+        }
+    }
+
+  });
+
+</script>
+
+{%endblock%}

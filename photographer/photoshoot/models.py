@@ -18,6 +18,8 @@ class Album_Info(models.Model):
     type_of_album = models.CharField(max_length = 150)
     price = models.DecimalField(max_digits=7, decimal_places=2)
     def __str__(self):
+        if self.type_of_album == "İstemiyorum":
+            return ("Albüm "+self.type_of_album)
         return (self.type_of_album+" albüm ücreti : "+str(self.price))
 
 class Concept(models.Model):
