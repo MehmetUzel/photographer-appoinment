@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from .forms import ShootPlanForm
-from .models import Photo_Concept,Shoot_Plan,Shoot_Concept
+from .models import Photo_Concept,Shoot_Plan,Shoot_Concept,Concept
+from django.core.serializers import serialize
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required, permission_required
+
 
 
 def photo_shoot(response):
@@ -30,10 +34,20 @@ def concept_photos(response):
     
     if item.exists():
         num_concept = item[0].num_of_concept.number_of_selection
+        concept_shoot_items = Shoot_Concept.objects.filter(shoot_id=item[0])
+        if concept_shoot_items.exists():
+            convert_concepts_to_list(concept_shoot_items)
+            return render(response, "photoshoot/concepts.html", {'concept':concepts,'num_concept':num_concept,'selected_concepts':convert_concepts_to_list(concept_shoot_items)})
         return render(response, "photoshoot/concepts.html", {'concept':concepts,'num_concept':num_concept})
 
     return render(response, "photoshoot/concepts.html", {'concept':concepts})
 
+def convert_concepts_to_list(queryset_obj):
+    concepts_list=[]
+    for x in queryset_obj:
+        print(x.concept_id)
+        concepts_list.append(x.concept_id.id)
+    return concepts_list
 
 def toggle_concept(response):
     is_add = response.POST.get('is_add')
@@ -42,22 +56,21 @@ def toggle_concept(response):
 
     if is_add == "true": 
         item = Shoot_Plan.objects.filter(user_id=current_user)
-        if item.exists():
-            shoot_concept_new = Shoot_Concept(shoot_id=item[0].id,concept_id=conceptid)
+        concept_shoot_items = Shoot_Concept.objects.filter(shoot_id=item[0]).count()
+        num_concept = item[0].num_of_concept.number_of_selection
+        if item.exists() and concept_shoot_items < num_concept:
+            shoot_concept_new = Shoot_Concept(shoot_id=item[0],concept_id=Concept.objects.get(id=conceptid))
             shoot_concept_new.save()
             return JsonResponse({"result": "success"}, status=200)
-        else:
-            return JsonResponse({"result": "fail"}, status=400)
 
     elif is_add == "false":
-        item = Shoot_Plan.objects.filter(user_id=current_user,concept_id=conceptid)
+        item = Shoot_Plan.objects.filter(user_id=current_user)
         if item.exists():
-            item.delete()
-            return JsonResponse({"result": "success"}, status=200)
-        else:
-            return JsonResponse({"result": "fail"}, status=400)
+            shoot_concept_delete = Shoot_Concept.objects.filter(shoot_id=item[0],concept_id=Concept.objects.get(id=conceptid))
+            if shoot_concept_delete.exists():
+                shoot_concept_delete.delete()
+                return JsonResponse({"result": "success"}, status=200)
 
-    else:
-            return JsonResponse({"result": "fail"}, status=400)
+    return JsonResponse({"result": "fail"}, status=400)
 
 

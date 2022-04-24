@@ -95,8 +95,8 @@ Konsept Ekranı
                 <img src="{{v.file_url.url}}" alt="">
                 <h2>{{v.concept_id.name}}</h2>
                 <h3>{{v.concept_id.id}}</h3>
-                <div id="{{v.concept_id.id}}">
-                  <button>SEÇ</button>
+                <div class="btnconcept" id="{{v.concept_id.id}}">
+                  <button onclick="toggleconcept(true,'{{v.concept_id.id}}')">SEÇ</button>
                 </div>
 
             </div>
@@ -106,6 +106,7 @@ Konsept Ekranı
         
     </div>    
 </div>
+
 
 
 {%endblock%}
@@ -121,6 +122,15 @@ Konsept Ekranı
 
 const num_of_concepts = parseInt('{{num_concept}}')
 let num_of_seleceted_concept = 0
+let sel_concepts = []
+let buttons = document.getElementsByClassName("btnconcept")
+
+
+'{% if selected_concepts %}'
+sel_concepts = JSON.parse('{{selected_concepts | escapejs}}')
+'{% endif %}'
+
+place_buttons();
 
 function getCookie(name) {
     let cookieValue = null;
@@ -140,29 +150,46 @@ function getCookie(name) {
     const csrftoken = getCookie('csrftoken')
 
 function toggleconcept(add_or_delete,concept){
+      if (add_or_delete){
+        console.log("pushing item from list")
+        console.log(concept)
+        sel_concepts.push(parseInt(concept))
+        console.log(sel_concepts)
+
+      }
+      else{
+        console.log("popping item from list")
+        console.log(concept)
+        let itemindex = sel_concepts.indexOf(parseInt(concept));
+        console.log(itemindex)
+        sel_concepts.splice(itemindex,1);
+        console.log(sel_concepts)
+      }
       var data = {
           is_add: add_or_delete,
-          concept_id: concept,
+          concept_id: parseInt(concept),
           csrfmiddlewaretoken: csrftoken,
         }
         $.ajax({
-          url: 'photoshoot/concepts/toggle/',
+          url: '/photoshoot/concepts/toggle/',
           type: 'POST',
           dataType: 'json',
           data: data
         }).done(function(response) {
-            
+            place_buttons();
           })
   }
 
 
 function add_button(concept_id)
 {
+  return `<button onclick="toggleconcept(true,'`+concept_id+`')">SEÇ</button>`
 
 }
 
 function delete_button(concept_id)
 {
+  return `<button onclick="toggleconcept(false,'`+concept_id+`')">SİL</button>`
 
 }
 
@@ -173,7 +200,24 @@ function remove_buttons()
 
 function place_buttons()
 {
-  
+  if (num_of_concepts >= sel_concepts.length){
+    for(let i = 0; i < buttons.length; i++){
+      if(sel_concepts.includes(parseInt(buttons[i].id))){
+        buttons[i].innerHTML = delete_button(buttons[i].id)
+      }
+      else{
+        buttons[i].style.visibility = 'visible'
+        buttons[i].innerHTML = add_button(buttons[i].id)
+      }
+    }
+  }
+  if (num_of_concepts == sel_concepts.length){
+    for(let i = 0; i < buttons.length; i++){
+      if(!sel_concepts.includes(parseInt(buttons[i].id))){
+        buttons[i].style.visibility = 'hidden'
+      }
+    }
+  }
 }
 
 const slider = tns({
@@ -193,7 +237,7 @@ const slider = tns({
         },
         
         768: {
-            items: 3,
+            items: 5,
         }
     }
 
