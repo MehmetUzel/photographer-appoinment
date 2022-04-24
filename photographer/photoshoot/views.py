@@ -51,7 +51,7 @@ def toggle_concept(response):
 
     elif is_add == "false":
         item = Shoot_Plan.objects.filter(user_id=current_user,concept_id=conceptid)
-        if item.exist():
+        if item.exists():
             item.delete()
             return JsonResponse({"result": "success"}, status=200)
         else:

@@ -5,7 +5,7 @@
 
     .slider-container {
       padding: 0 0;
-      background: #e6e6e6;
+      background: grey;
       margin: 0 0 0 0;
       overflow: hidden;
       border-radius: 5px;
@@ -27,16 +27,32 @@
     .my-slider {
       display: flex;
       position: relative;
+      margin-top: 10px;
     }
 
     .slider-item {
       background: grey;
-      border-right: 2px solid #333;
       padding: 0 0;
       position: relative;
     }
     .slider-item:hover {
       cursor: pointer;
+    }
+    .tns-controls { text-align: center; margin-bottom: 10px; margin-top: 10px;}
+    .tns-controls [aria-controls] {
+      font-size: 15px;
+      margin: 0 5px;
+      padding: 0 1em;
+      height: 2.5em;
+      color: #000;
+      background: #cacaca;
+      border-radius: 3px;
+      border: 0;
+    }
+    .tns-ovh {
+      padding-top: 10px;
+      padding-bottom: 10px;
+
     }
 
     .card {
@@ -49,7 +65,7 @@
       padding-bottom: 0.05rem;
       font-family: sans-serif;
       overflow: hidden;
-      box-shadow: 2px 2px rgba(0, 0, 0, 0.3);
+      box-shadow: 1px 1px 8px 2px rgba(0, 0, 0, 0.3);
       position: relative;
     }
     .card img {
@@ -70,14 +86,7 @@ Konsept Ekranı
 
 <h1> Konseptler </h1>
 <div class="slider-container">
-    <ul class="controls" id="customize-controls" aria-label="Carousel Navigation" tabindex="0">
-        <li class="prev" data-controls="prev" aria-controls="customize" tabindex="-1">
-            <i class="fas fa-angle-left fa-5x"></i>
-        </li>
-        <li class="next" data-controls="next" aria-controls="customize" tabindex="-1">
-            <i class="fas fa-angle-right fa-5x"></i>          
-        </li>
-    </ul>
+    
     <div class="my-slider">
 
     {% for v in concept %}
@@ -106,7 +115,7 @@ Konsept Ekranı
 {% load static %}
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.3.11/min/tiny-slider.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.8.8/min/tiny-slider.js"></script>
 
 <script type="text/javascript">
 
@@ -169,15 +178,15 @@ function place_buttons()
 
 const slider = tns({
     container: '.my-slider',
-    loop: true,
+    controlsPosition: "bottom",
+    controls: true,
+    rewind: true,
     items: 1,
-    slideBy: 'page',
-    nav: false,    
-    speed: 400,
-    autoplayButtonOutput: false,
+    nav:false,
+    slideBy: 1,
     mouseDrag: true,
     lazyload: true,
-    controlsContainer: "#customize-controls",
+    loop: false,
     responsive: {
         640: {
             items: 2,
