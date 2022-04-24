@@ -151,19 +151,12 @@ function getCookie(name) {
 
 function toggleconcept(add_or_delete,concept){
       if (add_or_delete){
-        console.log("pushing item from list")
-        console.log(concept)
         sel_concepts.push(parseInt(concept))
-        console.log(sel_concepts)
 
       }
       else{
-        console.log("popping item from list")
-        console.log(concept)
         let itemindex = sel_concepts.indexOf(parseInt(concept));
-        console.log(itemindex)
         sel_concepts.splice(itemindex,1);
-        console.log(sel_concepts)
       }
       var data = {
           is_add: add_or_delete,
