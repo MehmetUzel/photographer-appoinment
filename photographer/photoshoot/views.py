@@ -1,4 +1,4 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render
 from .forms import ShootPlanForm
 from .models import Photo_Concept,Shoot_Plan,Shoot_Concept,Concept
 from django.core.serializers import serialize
@@ -10,8 +10,11 @@ from django.contrib.auth.decorators import login_required, permission_required
 def photo_shoot(response):
     current_user = response.user
     if response.method == 'POST':
-        obj = get_object_or_404(Shoot_Plan, user_id = current_user)
-        form = ShootPlanForm(response.POST, instance = obj)
+        item = Shoot_Plan.objects.filter(user_id=current_user)
+        if item.exists():
+            form = ShootPlanForm(response.POST, instance = item[0])
+        else:
+            form = ShootPlanForm(response.POST)
         if form.is_valid():
             shootplan = form.save(commit=False)
             shootplan.user_id = current_user
@@ -37,7 +40,6 @@ def concept_photos(response):
         num_concept = item[0].num_of_concept.number_of_selection
         concept_shoot_items = Shoot_Concept.objects.filter(shoot_id=item[0])
         if concept_shoot_items.exists():
-            convert_concepts_to_list(concept_shoot_items)
             return render(response, "photoshoot/concepts.html", {'concept':concepts,'num_concept':num_concept,'selected_concepts':convert_concepts_to_list(concept_shoot_items)})
         return render(response, "photoshoot/concepts.html", {'concept':concepts,'num_concept':num_concept})
 
