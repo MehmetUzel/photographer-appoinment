@@ -1,6 +1,8 @@
 from django.db import models
 from user.models import User
 from appoinment.models import Appoinment
+from django_resized import ResizedImageField
+
 
 # Create your models here.
 class Shoot_Type(models.Model):
@@ -31,7 +33,7 @@ class Concept(models.Model):
 
 class Photo_Concept(models.Model):
     concept_id = models.ForeignKey(Concept, on_delete=models.PROTECT)
-    file_url = models.ImageField(upload_to= 'images/', max_length=1000)
+    file_url = ResizedImageField(quality = 30, upload_to= 'images/')
     def __str__(self):
         return (self.concept_id.name+" konseptinin fotoğrafı")
 

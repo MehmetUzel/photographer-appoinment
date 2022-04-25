@@ -9,6 +9,8 @@ from user.models import Address,User
 from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, permission_required
+from photoshoot.models import Photo_Concept,Shoot_Plan,Shoot_Concept,Concept
+
 
 
 def get_days_for_next_four_months():
@@ -187,12 +189,40 @@ def get_user_for_app(response):
     user_appoinment = Appoinment.objects.filter(date=app_date,time=app_time)
     app_user = user_appoinment[0].user
     address = Address.objects.filter(user=app_user)
+    item = Shoot_Plan.objects.filter(user_id=app_user)
+    if item.exists():
+        shoot_detail = prepare_shoot_details(item[0],app_user)
+    else:
+        shoot_detail = {}
+        shoot_detail["user_name"] = app_user.first_name + " "+ app_user.last_name
+        shoot_detail["user_phone"] = app_user.phone
 
     if response.user.is_admin and user_appoinment.exists():
         user_address_json = serialize('json', address)
         #return JsonResponse({'city':address[0].city,'district':address[0].district.name,'neigbourhood':address[0].neighbourhood})
         #return JsonResponse({"address":user_address_json}, status=200,safe=False)
-        return JsonResponse({"address":serialize("json",address),}, status=200,safe=False)
+        return JsonResponse({"address":serialize("json",address),"shoot":shoot_detail}, status=200,safe=False)
 #serialize('json', SomeModel.objects.all(), cls=LazyEncoder)
     else:
         return JsonResponse({"result": "unauthorized"}, status=400)
+
+def prepare_shoot_details(shoot,app_user):
+    concept_shoot_items = Shoot_Concept.objects.filter(shoot_id=shoot)
+
+    shoot_dict={}
+    shoot_dict["type"] = shoot.shoot_type.name
+    shoot_dict["album"] = shoot.album_type.type_of_album
+    shoot_dict["num_of_concept"] = shoot.num_of_concept.number_of_selection
+    concept_names = ""
+    for x in concept_shoot_items:
+        if concept_names == "":
+            concept_names = x.concept_id.name
+        else:
+            concept_names = concept_names + " , " + x.concept_id.name
+
+    shoot_dict["concepts"] = concept_names
+    shoot_dict["user_name"] = app_user.first_name + " "+ app_user.last_name
+    shoot_dict["user_phone"] = app_user.phone
+
+    print(shoot_dict)
+    return shoot_dict

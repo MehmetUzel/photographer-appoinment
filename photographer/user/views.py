@@ -44,13 +44,17 @@ def login(request):
 @login_required
 def profileaddress(request):
     current_user = request.user
+
     if request.method == 'POST':
-        form = PartialProfileForm(request.POST)
+        item = Address.objects.filter(user = current_user)
+        if item.exists():
+            form = PartialProfileForm(request.POST, instance = item[0])
+        else:
+            form = PartialProfileForm(request.POST)
         if form.is_valid():
             address = form.save(commit=False)
             address.user = current_user
             address.save()
-            # return redirect("user/userprofile.html")
             return render(request, 'user/profileaddress.html', {'form':form})
         else:
             messages.info(request, f'account does not exist plz sign in')
@@ -66,7 +70,7 @@ def profileaddress(request):
 def userprofile(request):
     current_user = request.user
     if request.method == 'POST':
-        form = PartialUserProfileForm(request.POST)
+        form = PartialUserProfileForm(request.POST, instance=current_user)
         if form.is_valid():
             address = form.save(commit=False)
             address.user = current_user

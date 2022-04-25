@@ -10,7 +10,11 @@ from django.contrib.auth.decorators import login_required, permission_required
 def photo_shoot(response):
     current_user = response.user
     if response.method == 'POST':
-        form = ShootPlanForm(response.POST)
+        item = Shoot_Plan.objects.filter(user_id=current_user)
+        if item.exists():
+            form = ShootPlanForm(response.POST, instance = item[0])
+        else:
+            form = ShootPlanForm(response.POST)
         if form.is_valid():
             shootplan = form.save(commit=False)
             shootplan.user_id = current_user
@@ -36,7 +40,6 @@ def concept_photos(response):
         num_concept = item[0].num_of_concept.number_of_selection
         concept_shoot_items = Shoot_Concept.objects.filter(shoot_id=item[0])
         if concept_shoot_items.exists():
-            convert_concepts_to_list(concept_shoot_items)
             return render(response, "photoshoot/concepts.html", {'concept':concepts,'num_concept':num_concept,'selected_concepts':convert_concepts_to_list(concept_shoot_items)})
         return render(response, "photoshoot/concepts.html", {'concept':concepts,'num_concept':num_concept})
 

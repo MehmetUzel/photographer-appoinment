@@ -29,6 +29,7 @@ function getCookie(name) {
     var noon_row = document.getElementById("noon")
     var evening_row = document.getElementById("evening")
     var user_address
+    var user_shoot
 
     var myModal = document.getElementById('exampleModal')
 
@@ -184,6 +185,7 @@ function getCookie(name) {
           data: data
         }).done(function(response) {
             user_address = JSON.parse(response.address);
+            user_shoot = response.shoot;
             prepare_addres_for_appointment(date_app,time_app)
           })
   }
@@ -212,7 +214,14 @@ function getCookie(name) {
     }
 
     function prepare_addres_for_appointment(date_to_delete,time_to_delete){
-      document.getElementById('im'+date_to_delete+"_"+time_to_delete).innerHTML = (user_address[0].fields.name+`<br>`+user_address[0].fields.city+`<br>`+user_address[0].fields.district+`<br>`+user_address[0].fields.neighbourhood+`<br>`+user_address[0].fields.street_name+`<br>`+user_address[0].fields.building_num+`<br>`+user_address[0].fields.flat_num+`<br>`+user_address[0].fields.address_instructions);
+      document.getElementById('im'+date_to_delete+"_"+time_to_delete).innerHTML = (
+        user_shoot.user_name+ " - Tel : " + user_shoot.user_phone+
+        "<hr>Adres Adı : "+user_address[0].fields.name+`<br> Şehir : `+user_address[0].fields.city+`<br> İlçe : `+
+        user_address[0].fields.district+`<br> Mahalle : `+user_address[0].fields.neighbourhood+`<br> Sokak : `+
+        user_address[0].fields.street_name+`<br> Apartman No : `+user_address[0].fields.building_num+`<br> Daire No :`+
+        user_address[0].fields.flat_num+`<br> Adres Tarifi : `+user_address[0].fields.address_instructions+`<br><hr>Çekim Detayları <br> Çekim Tipi : `+
+        user_shoot.type+`<br> Albüm Tipi : `+user_shoot.album+`<br> Konsept Sayısı : `+user_shoot.num_of_concept+`<br> Seçilen Konseptler : `+user_shoot.concepts
+        );
     }
 
     function prepare_app_deletion_html(date_to_delete, time_to_delete,user){
@@ -224,7 +233,7 @@ function getCookie(name) {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="`+id_name+`Label">Kullanıcı Adresi</h5>
+            <h5 class="modal-title" id="`+id_name+`Label">Kullanıcı Detayları</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
