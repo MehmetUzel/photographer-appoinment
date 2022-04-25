@@ -94,7 +94,6 @@ Konsept Ekranı
             <div class="card">                
                 <img src="{{v.file_url.url}}" alt="">
                 <h2>{{v.concept_id.name}}</h2>
-                <h3>{{v.concept_id.id}}</h3>
                 <div class="btnconcept" id="{{v.concept_id.id}}">
                   <button onclick="toggleconcept(true,'{{v.concept_id.id}}')">SEÇ</button>
                 </div>
@@ -230,7 +229,7 @@ const slider = tns({
         },
         
         768: {
-            items: 5,
+            items: 4,
         }
     }
 

@@ -28,11 +28,11 @@ def photo_shoot(response):
     return render(response, 'photoshoot/shootplan.html', {'form':form})
 
 def concept_photos(response):
-    concepts = Photo_Concept.objects.filter(concept_id__is_active=True)
     current_user = response.user
     item = Shoot_Plan.objects.filter(user_id=current_user)
-    
+
     if item.exists():
+        concepts = Photo_Concept.objects.filter(concept_id__is_active=True, concept_id__type_id=item[0].shoot_type)
         num_concept = item[0].num_of_concept.number_of_selection
         concept_shoot_items = Shoot_Concept.objects.filter(shoot_id=item[0])
         if concept_shoot_items.exists():
@@ -40,12 +40,11 @@ def concept_photos(response):
             return render(response, "photoshoot/concepts.html", {'concept':concepts,'num_concept':num_concept,'selected_concepts':convert_concepts_to_list(concept_shoot_items)})
         return render(response, "photoshoot/concepts.html", {'concept':concepts,'num_concept':num_concept})
 
-    return render(response, "photoshoot/concepts.html", {'concept':concepts})
+    return render(response, "photoshoot/concepts.html")
 
 def convert_concepts_to_list(queryset_obj):
     concepts_list=[]
     for x in queryset_obj:
-        print(x.concept_id)
         concepts_list.append(x.concept_id.id)
     return concepts_list
 
