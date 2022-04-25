@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from .forms import ShootPlanForm
 from .models import Photo_Concept,Shoot_Plan,Shoot_Concept,Concept
 from django.core.serializers import serialize
@@ -10,7 +10,8 @@ from django.contrib.auth.decorators import login_required, permission_required
 def photo_shoot(response):
     current_user = response.user
     if response.method == 'POST':
-        form = ShootPlanForm(response.POST)
+        obj = get_object_or_404(Shoot_Plan, user_id = current_user)
+        form = ShootPlanForm(response.POST, instance = obj)
         if form.is_valid():
             shootplan = form.save(commit=False)
             shootplan.user_id = current_user

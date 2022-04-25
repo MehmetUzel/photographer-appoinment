@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from user.models import Address,User
 from .forms import RegisterForm,LoginForm,ProfileForm,PartialProfileForm,PartialUserProfileForm
@@ -44,13 +44,14 @@ def login(request):
 @login_required
 def profileaddress(request):
     current_user = request.user
+
     if request.method == 'POST':
-        form = PartialProfileForm(request.POST)
+        obj = get_object_or_404(Address, user = current_user)
+        form = PartialProfileForm(request.POST, instance = obj)
         if form.is_valid():
             address = form.save(commit=False)
             address.user = current_user
             address.save()
-            # return redirect("user/userprofile.html")
             return render(request, 'user/profileaddress.html', {'form':form})
         else:
             messages.info(request, f'account does not exist plz sign in')
@@ -66,7 +67,8 @@ def profileaddress(request):
 def userprofile(request):
     current_user = request.user
     if request.method == 'POST':
-        form = PartialUserProfileForm(request.POST)
+        obj = get_object_or_404(User, id = current_user.id)
+        form = PartialUserProfileForm(request.POST, instance=current_user)
         if form.is_valid():
             address = form.save(commit=False)
             address.user = current_user
