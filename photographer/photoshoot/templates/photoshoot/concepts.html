@@ -85,6 +85,8 @@ Konsept Ekranı
 {%block content%}
 
 <h1> Konseptler </h1>
+<h4 id ="definedcon"></h4>
+<h6 id ="selectedcon"></h6>
 <div class="slider-container">
     
     <div class="my-slider">
@@ -120,6 +122,7 @@ Konsept Ekranı
 <script type="text/javascript">
 
 const num_of_concepts = parseInt('{{num_concept}}')
+document.getElementById("definedcon").innerHTML = num_of_concepts + " Adet Konsept Seçimi Yapabilirsiniz."
 let num_of_seleceted_concept = 0
 let sel_concepts = []
 let buttons = document.getElementsByClassName("btnconcept")
@@ -128,6 +131,8 @@ let buttons = document.getElementsByClassName("btnconcept")
 '{% if selected_concepts %}'
 sel_concepts = JSON.parse('{{selected_concepts | escapejs}}')
 '{% endif %}'
+
+update_selected_count()
 
 place_buttons();
 
@@ -169,8 +174,13 @@ function toggleconcept(add_or_delete,concept){
           data: data
         }).done(function(response) {
             place_buttons();
+            update_selected_count()
           })
   }
+
+function update_selected_count(){
+  document.getElementById("selectedcon").innerHTML = "Seçilen Toplam Konsept Sayısı : " + sel_concepts.length
+}
 
 
 function add_button(concept_id)
