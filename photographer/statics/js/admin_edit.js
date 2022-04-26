@@ -31,10 +31,6 @@ function getCookie(name) {
     var user_address
     var user_shoot
 
-    var myModal = document.getElementById('exampleModal')
-
-    myModal.addEventListener('shown.bs.modal', function () {
-    })
 
     $(document).ready(function(){
         get_data();
@@ -149,9 +145,9 @@ function getCookie(name) {
       }
     }
     function appoinment_add_button(current_date,i){
-        morning_row.children[i].innerHTML = '<div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+current_date+'\',\'MO\')">AL</button><button onclick="add_offday(\''+current_date+'\',\'OFFMO\')">İZ</button></div>';
-        noon_row.children[i].innerHTML = '<div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+current_date+'\',\'NO\')">AL</button><button onclick="add_offday(\''+current_date+'\',\'OFFNO\')">İZ</button></div>';
-        evening_row.children[i].innerHTML = '<div style="display: flex; justify-content: space-evenly;"><button onclick="add_appoinment(\''+current_date+'\',\'EV\')">AL</button><button onclick="add_offday(\''+current_date+'\',\'OFFEV\')">İZ</button></div>';
+        morning_row.children[i].innerHTML = '<div style="display: flex; justify-content: space-evenly;"><button onclick="add_offday(\''+current_date+'\',\'OFFMO\')">İZ</button></div>';
+        noon_row.children[i].innerHTML = '<div style="display: flex; justify-content: space-evenly;"><button onclick="add_offday(\''+current_date+'\',\'OFFNO\')">İZ</button></div>';
+        evening_row.children[i].innerHTML = '<div style="display: flex; justify-content: space-evenly;"><button onclick="add_offday(\''+current_date+'\',\'OFFEV\')">İZ</button></div>';
     }
 
     function add_appoinment(date_app,time_app,is_add = true){
@@ -227,7 +223,7 @@ function getCookie(name) {
     function prepare_app_deletion_html(date_to_delete, time_to_delete,user){
       let id_name = "m"+date_to_delete+"_"+time_to_delete;
       return `<div style="text-align: center;"><button onclick="get_info_appoinment('`+date_to_delete+`','`+time_to_delete+`')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#`+id_name+`">
-      `+user+`
+      `+"I"+`
     </button><div style="display: flex; justify-content: space-evenly;"><button class="btn-close" aria-label="Close" onclick="add_appoinment('`+date_to_delete+`','`+time_to_delete+`',false)"></button></div></div> 
       <div class="modal fade" id="`+id_name+`" tabindex="-1" aria-labelledby="`+id_name+`Label" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">

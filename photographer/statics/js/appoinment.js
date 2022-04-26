@@ -30,6 +30,7 @@ function getCookie(name) {
     var morning_row = document.getElementById("morning")
     var noon_row = document.getElementById("noon")
     var evening_row = document.getElementById("evening")
+    var today = Date.now();
 
     $(document).ready(function(){
         get_data();
@@ -91,8 +92,6 @@ function getCookie(name) {
 
     var d = new Date();
 
-    //To Do ** Make Update or Fetch method here to get current values for this.
-
     function get_this_week(){
         if (current == -1){
             current = 0
@@ -144,12 +143,10 @@ function getCookie(name) {
 
         function myFunction(value, index, arr) {
         var current_date = new Date(value)
-        if (has_appo == false){
+        if (has_appo == false && today < current_date){
           appoinment_add_button(value,index+1);
         }
         add_info_appoinment_offday(value)
-        console.log(value)
-        console.log(user_apdate)
         if(value == user_apdate){
         show_users_appoinment(value,user_aptime,user_name)
         }
@@ -185,11 +182,9 @@ function getCookie(name) {
           dataType: 'json',
           data: data
         }).done(function(response) {
-            console.log("success") 
             get_week_data();
             get_data_user();
             change_values();
-            console.log("finished fetching")
           })
   }
 
