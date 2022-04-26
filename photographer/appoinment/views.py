@@ -24,6 +24,8 @@ def get_days_for_next_four_months():
     month = datetime.date.today().month
     year = datetime.date.today().year
     lastmonth = month+4
+    weektodelete=0
+    first = True
 
     if (month > 8):
         lastmonth = 13
@@ -33,9 +35,18 @@ def get_days_for_next_four_months():
         current_li = list(obj.monthdatescalendar(year, x))
         if current_li[0] == last_week:
             current_li.pop(0)
+        for x in range(len(current_li)):
+            if current_li[x][6] < current_day:
+                print(current_li[x][6])
+                weektodelete = weektodelete + 1
+
+        if first:
+            for i in range(weektodelete):
+                current_li.pop(0)
+        print(current_li)
         days.append(current_li)
         last_week = current_li[-1]
-    
+        first = False
     # for x in days:
     #     for i in x:
     #         for y in i:
@@ -134,7 +145,7 @@ def add_or_delete_appoinment(response):
                 return JsonResponse({"result": "success"}, status=200)
         
     #search for django error results
-    return JsonResponse({"result": "success"}, status=400)
+    return JsonResponse({"result": "fail"}, status=400)
 
 #add deletion to method name
 @login_required
@@ -156,7 +167,7 @@ def add_or_delete_offday(response):
                 item.delete()
                 return JsonResponse({"result": "success"}, status=200)
     #search for django error results
-    return JsonResponse({"result": "success"}, status=400)
+    return JsonResponse({"result": "fail"}, status=400)
 
 def user_info_for_admin(response):
     days = get_days_for_next_four_months()
