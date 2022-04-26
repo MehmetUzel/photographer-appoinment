@@ -31,10 +31,6 @@ function getCookie(name) {
     var user_address
     var user_shoot
 
-    var myModal = document.getElementById('exampleModal')
-
-    myModal.addEventListener('shown.bs.modal', function () {
-    })
 
     $(document).ready(function(){
         get_data();
