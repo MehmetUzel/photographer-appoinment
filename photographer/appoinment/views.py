@@ -37,24 +37,14 @@ def get_days_for_next_four_months():
             current_li.pop(0)
         for x in range(len(current_li)):
             if current_li[x][6] < current_day:
-                print(current_li[x][6])
                 weektodelete = weektodelete + 1
 
         if first:
             for i in range(weektodelete):
                 current_li.pop(0)
-        print(current_li)
         days.append(current_li)
         last_week = current_li[-1]
         first = False
-    # for x in days:
-    #     for i in x:
-    #         for y in i:
-    #             if y < current_day:
-    #                 print(y)
-    #                 i.remove(y)
-    #             else:
-    #                 return days
     return days
 
 
@@ -114,7 +104,6 @@ def appoinment(response):
 def admin_edit(response):
     return render(response, "appoinment/admin_editing.html")
 
-#add deletion to method name
 @login_required
 def add_or_delete_appoinment(response):
     #ToDo Check is date valid
@@ -139,18 +128,14 @@ def add_or_delete_appoinment(response):
     else:
         item = Appoinment.objects.filter(date = app_date, time=app_time,user = response.user)
         if item.exists():
-            print(response.user == item[0].user)
             if response.user == item[0].user:
                 item.delete()
                 return JsonResponse({"result": "success"}, status=200)
         
-    #search for django error results
     return JsonResponse({"result": "fail"}, status=400)
 
-#add deletion to method name
 @login_required
 def add_or_delete_offday(response):
-    #ToDo *** Admin user required
     if response.user.is_admin:
         off_add = response.POST.get('off_add')#If false it means we are doing deletion
         off_date = response.POST.get('off_date')
@@ -166,7 +151,6 @@ def add_or_delete_offday(response):
             if item.exists():
                 item.delete()
                 return JsonResponse({"result": "success"}, status=200)
-    #search for django error results
     return JsonResponse({"result": "fail"}, status=400)
 
 def user_info_for_admin(response):
@@ -210,10 +194,7 @@ def get_user_for_app(response):
 
     if response.user.is_admin and user_appoinment.exists():
         user_address_json = serialize('json', address)
-        #return JsonResponse({'city':address[0].city,'district':address[0].district.name,'neigbourhood':address[0].neighbourhood})
-        #return JsonResponse({"address":user_address_json}, status=200,safe=False)
         return JsonResponse({"address":serialize("json",address),"shoot":shoot_detail}, status=200,safe=False)
-#serialize('json', SomeModel.objects.all(), cls=LazyEncoder)
     else:
         return JsonResponse({"result": "unauthorized"}, status=400)
 
@@ -235,5 +216,4 @@ def prepare_shoot_details(shoot,app_user):
     shoot_dict["user_name"] = app_user.first_name + " "+ app_user.last_name
     shoot_dict["user_phone"] = app_user.phone
 
-    print(shoot_dict)
     return shoot_dict
