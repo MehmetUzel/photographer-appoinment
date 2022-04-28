@@ -11,21 +11,39 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ["first_name","last_name","email", "phone","password1", "password2"]
+        labels = {
+            'first_name': _('İsim'),
+            'last_name': _('Soyisim'),
+            'email': _('E-mail'),
+            'phone': _('Telefon'),
+            'password1': _('Parola'),
+            'password2': _('Parola Onayı'),
+        }
 
 class LoginForm(AuthenticationForm):
 
     class Meta:
         model = User
         fields = ["password1"]
+        labels = {
+            'username': _('E-mail'),
+        }
         
+#Profile means Address
 class PartialProfileForm(forms.ModelForm):
 
     class Meta:
         model = Address
         fields = ["name","city","district","neighbourhood","street_name","building_num","flat_num","address_instructions"]
         labels = {
-            'name': _('Address Name'),
-            'city': _('Şehir'),
+            'name': _('Adres Adı'),
+            'city': _('İl'),
+            'district': _('İlçe'),
+            'neighbourhood': _('Mahalle'),
+            'street_name': _('Sokak'),
+            'building_num': _('Apartman No'),
+            'flat_num': _('Daire No'),
+            'address_instructions': _('Adres Tarifi'),
         }
 
 class ProfileForm(forms.ModelForm):
@@ -45,4 +63,10 @@ class PartialUserProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["first_name","last_name","phone","email"]
+        labels = {
+            'first_name': _('İsim'),
+            'last_name': _('Soyisim'),
+            'email': _('E-mail'),
+            'phone': _('Telefon'),
+        }
         

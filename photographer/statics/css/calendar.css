@@ -184,6 +184,10 @@ ul li:hover {
   padding: 5px 8px;
 }
 
+.btn-success {
+  margin-top: 15px;
+}
+
 #login {
   border: 1px solid #498afb;
 }

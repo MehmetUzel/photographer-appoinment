@@ -34,7 +34,6 @@ function getCookie(name) {
 
     $(document).ready(function(){
         get_data();
-        get_user_data();
     });
 
     function get_data(){
@@ -46,7 +45,7 @@ function getCookie(name) {
           }).done(function(response) {
               data = response.data
               week_entry = response.week
-              get_this_week();
+              get_user_data()
             })
     }
 
@@ -75,7 +74,7 @@ function getCookie(name) {
   }
 
 
-    const monthlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const monthlist = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
 
     var d = new Date();
 
