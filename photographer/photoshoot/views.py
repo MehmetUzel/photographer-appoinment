@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, permission_required
 
 
-
+@login_required
 def photo_shoot(response):
     current_user = response.user
     if response.method == 'POST':
@@ -31,6 +31,7 @@ def photo_shoot(response):
 
     return render(response, 'photoshoot/shootplan.html', {'form':form})
 
+@login_required
 def concept_photos(response):
     current_user = response.user
     item = Shoot_Plan.objects.filter(user_id=current_user)
@@ -51,6 +52,7 @@ def convert_concepts_to_list(queryset_obj):
         concepts_list.append(x.concept_id.id)
     return concepts_list
 
+@login_required
 def toggle_concept(response):
     is_add = response.POST.get('is_add')
     conceptid = response.POST.get('concept_id')
