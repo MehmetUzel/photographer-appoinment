@@ -14,7 +14,7 @@
         {% block stylesf %}{%endblock%}
         
 
-        <title>{% block title%}Flora Film Baby Website{%endblock%}</title>
+        <title>{% block title%}Flora Film Baby{%endblock%}</title>
     </head>
     <body>
 
@@ -23,23 +23,24 @@
             <nav>
               <ul>
                 <li><a href="/home/">Anasayfa</a></li>
-                <li><a href="/appoinment/">Appoinment</a></li>
-                <li><a href="/photoshoot/">Photo Shoot</a></li>
-                <li><a href="/photoshoot/concepts/">Concepts</a></li>
+                <li><a href="/appoinment/">Randevu</a></li>
+                <li><a href="/photoshoot/">Çekim Detayları</a></li>
+                <li><a href="/photoshoot/concepts/">Konseptler</a></li>
 
                 {% if user.is_admin %}
-                <li><a href="/appoinment/admin/">Admin Edit</a></li>
+                <li><a href="/appoinment/admin/">Admin</a></li>
                 {% endif %}
                 {% if request.user.is_authenticated %}
-                <li><a href="/profileaddress/">Address</a></li>
-                <li><a href="/userprofile/">Kullanıcı Profil</a></li>
+                <li><a href="/profileaddress/">Adres</a></li>
+                <li><a href="/userprofile/">Profil</a></li>
                 <li id="signup"><a href="/accounts/logout/">Çıkış</a></li>
                 {% else %}
-                <li id="login"><a href="/login/" >Login</a></li>
-                <li id="signup"><a href="/register/">Signup</a></li>
+                <li id="login"><a href="/login/" >Oturum Aç</a></li>
+                <li id="signup"><a href="/register/">Kaydol</a></li>
                 {% endif %}
               </ul>
             </nav>
+            <!-- To Do change mobile menu strategy -->
             <div id="hamburger-icon" onclick="toggleMobileMenu(this)">
               <div class="bar1"></div>
               <div class="bar2"></div>
