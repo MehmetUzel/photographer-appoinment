@@ -69,4 +69,10 @@ class PartialUserProfileForm(forms.ModelForm):
             'email': _('E-mail'),
             'phone': _('Telefon'),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        #self.fields["slug"].disabled = True
+        # Or to set READONLY
+        self.fields["email"].widget.attrs["readonly"] = True
         
