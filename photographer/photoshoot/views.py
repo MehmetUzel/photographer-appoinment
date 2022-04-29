@@ -1,14 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .forms import ShootPlanForm
 from .models import Photo_Concept,Shoot_Plan,Shoot_Concept,Concept
 from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, permission_required
+from user.models import Address
 
 
 @login_required
 def photo_shoot(response):
     current_user = response.user
+    address = Address.objects.filter(user=current_user)
+    if not address.exists():
+        return redirect('/profileaddress/')
+
     if response.method == 'POST':
         item = Shoot_Plan.objects.filter(user_id=current_user)
         if item.exists():
@@ -35,8 +40,10 @@ def photo_shoot(response):
 def concept_photos(response):
     current_user = response.user
     item = Shoot_Plan.objects.filter(user_id=current_user)
+    if not item.exists():
+        return redirect('/photoshoot/')
 
-    if item.exists():
+    elif item.exists():
         concepts = Photo_Concept.objects.filter(concept_id__is_active=True, concept_id__type_id=item[0].shoot_type)
         num_concept = item[0].num_of_concept.number_of_selection
         concept_shoot_items = Shoot_Concept.objects.filter(shoot_id=item[0])
