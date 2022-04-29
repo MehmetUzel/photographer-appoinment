@@ -107,6 +107,7 @@ Konsept Ekranı
         
     </div>    
 </div>
+<h7 id="warnuser">Belirlediğiniz Konsept Kadar Seçim Yapmadan Randevu Ekranına Erişemezsiniz</h7>
 
 
 
@@ -182,6 +183,13 @@ function update_selected_count(){
   document.getElementById("selectedcon").innerHTML = "Seçilen Toplam Konsept Sayısı : " + sel_concepts.length
 }
 
+function add_warning_message(){
+  document.getElementById("warnuser").innerHTML = "Belirlediğiniz Konsept Kadar Seçim Yapmadan Randevu Ekranına Erişemezsiniz"
+}
+function remove_warning_message(){
+  document.getElementById("warnuser").innerHTML = ""
+}
+
 
 function add_button(concept_id)
 {
@@ -212,6 +220,7 @@ function place_buttons()
         buttons[i].innerHTML = add_button(buttons[i].id)
       }
     }
+    add_warning_message()
   }
   if (num_of_concepts == sel_concepts.length){
     for(let i = 0; i < buttons.length; i++){
@@ -219,6 +228,7 @@ function place_buttons()
         buttons[i].style.visibility = 'hidden'
       }
     }
+    remove_warning_message()
   }
 }
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import calendar
 import locale
 import datetime
@@ -82,13 +82,14 @@ def add_appoinments_offdays(days_dict, app_off):
             days_dict[date_of_x] = [x.time]
     return days_dict
 
+@login_required
 def appoinment_data(response):
     days = get_days_for_next_four_months()
     days_dict,has_appoinment = combine_off_and_app_days(days,response)
 
     return JsonResponse({'data':list(days),'week':days_dict,'has_app':has_appoinment})
 
-
+@login_required
 def get_week_data(response):
     days = get_days_for_next_four_months()
     days_dict,has_appoinment = combine_off_and_app_days(days,response)
@@ -98,6 +99,12 @@ def get_week_data(response):
 
 @login_required
 def appoinment(response):
+    current_user = response.user
+    item = Shoot_Plan.objects.filter(user_id=current_user)
+    concept_shoot_items = Shoot_Concept.objects.filter(shoot_id=item[0]).count()
+    num_concept = item[0].num_of_concept.number_of_selection
+    if not item.exists() or concept_shoot_items < num_concept:
+        return redirect('/photoshoot/concepts/')
     return render(response, "appoinment/appoinment.html")
 
 @login_required
@@ -153,6 +160,7 @@ def add_or_delete_offday(response):
                 return JsonResponse({"result": "success"}, status=200)
     return JsonResponse({"result": "fail"}, status=400)
 
+@login_required
 def user_info_for_admin(response):
     days = get_days_for_next_four_months()
     appoinments = Appoinment.objects.filter(date__range = (days[0][0][0],days[-1][-1][-1]))
@@ -167,6 +175,7 @@ def user_info_for_admin(response):
 
     return JsonResponse({'user_app':apps_dict})
 
+@login_required
 def user_app_info(response):
     days = get_days_for_next_four_months()
     current_user = response.user
@@ -177,6 +186,7 @@ def user_app_info(response):
     else:
         return JsonResponse({'user_app_date':None,'user_app_time':None,'user_name':None})
 
+@login_required
 def get_user_for_app(response):
     app_date = response.POST.get('app_date')
     app_time = response.POST.get('app_time')
