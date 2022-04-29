@@ -15,7 +15,6 @@ from photoshoot.models import Photo_Concept,Shoot_Plan,Shoot_Concept,Concept
 
 def get_days_for_next_four_months():
     #locale.setlocale(locale.LC_ALL, 'turkish') # Add this to setting so that it will be easier to change locale
-    #To Do ** Start displaying from current week and disable adding entries from past.
 
     obj = calendar.Calendar()
     last_week = []
@@ -23,28 +22,58 @@ def get_days_for_next_four_months():
     current_day = datetime.date.today()
     month = datetime.date.today().month
     year = datetime.date.today().year
-    lastmonth = month+4
+    lastmonth = month+3
     weektodelete=0
     first = True
 
-    if (month > 8):
-        lastmonth = 13
-        #What happens when current month is december and you need to display days from next year ?
-
-    for x in range(month,lastmonth):
-        current_li = list(obj.monthdatescalendar(year, x))
-        if current_li[0] == last_week:
-            current_li.pop(0)
-        for x in range(len(current_li)):
-            if current_li[x][6] < current_day:
-                weektodelete = weektodelete + 1
-
-        if first:
-            for i in range(weektodelete):
+    if (month > 9):
+        lastmonth = 12
+        next_year_month = month - 9
+        for x in range(month,lastmonth+1):
+            current_li = list(obj.monthdatescalendar(year, x))
+            if current_li[0] == last_week:
                 current_li.pop(0)
-        days.append(current_li)
-        last_week = current_li[-1]
-        first = False
+            for x in range(len(current_li)):
+                if current_li[x][6] < current_day:
+                    weektodelete = weektodelete + 1
+
+            if first:
+                for i in range(weektodelete):
+                    current_li.pop(0)
+            days.append(current_li)
+            last_week = current_li[-1]
+            first = False
+
+        for x in range(1,next_year_month+1):
+            current_li = list(obj.monthdatescalendar(year+1, x))
+            if current_li[0] == last_week:
+                current_li.pop(0)
+            for x in range(len(current_li)):
+                if current_li[x][6] < current_day:
+                    weektodelete = weektodelete + 1
+
+            if first:
+                for i in range(weektodelete):
+                    current_li.pop(0)
+            days.append(current_li)
+            last_week = current_li[-1]
+            first = False
+
+    else:
+        for x in range(month,lastmonth+1):
+            current_li = list(obj.monthdatescalendar(year, x))
+            if current_li[0] == last_week:
+                current_li.pop(0)
+            for x in range(len(current_li)):
+                if current_li[x][6] < current_day:
+                    weektodelete = weektodelete + 1
+
+            if first:
+                for i in range(weektodelete):
+                    current_li.pop(0)
+            days.append(current_li)
+            last_week = current_li[-1]
+            first = False
     return days
 
 
