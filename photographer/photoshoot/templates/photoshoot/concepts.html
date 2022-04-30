@@ -155,6 +155,7 @@ function getCookie(name) {
     const csrftoken = getCookie('csrftoken')
 
 function toggleconcept(add_or_delete,concept){
+  // Bug when 400 response because values shouldnt change when server operation fails
       if (add_or_delete){
         sel_concepts.push(parseInt(concept))
 
@@ -184,10 +185,13 @@ function update_selected_count(){
 }
 
 function add_warning_message(){
-  document.getElementById("warnuser").innerHTML = "Belirlediğiniz Konsept Kadar Seçim Yapmadan Randevu Ekranına Erişemezsiniz"
+  document.getElementById("warnuser").innerHTML = "Belirlediğiniz Konsept Sayısı Kadar Seçim Yapmadan Randevu Ekranına Erişemezsiniz"
 }
 function remove_warning_message(){
   document.getElementById("warnuser").innerHTML = ""
+}
+function add_change_warning_message(){
+  document.getElementById("warnuser").innerHTML = "Konsept Sayısını Azalttığınız İçin Seçtiğiniz Konseptlerin Bazılarından Vazgeçmeniz Gerekiyor, Üzgünüz 🥲"
 }
 
 
@@ -229,6 +233,17 @@ function place_buttons()
       }
     }
     remove_warning_message()
+  }
+  if (num_of_concepts < sel_concepts.length){
+    for(let i = 0; i < buttons.length; i++){
+      if(sel_concepts.includes(parseInt(buttons[i].id))){
+        buttons[i].innerHTML = delete_button(buttons[i].id)
+      }
+      else{
+        buttons[i].style.visibility = 'hidden'
+      }
+    }
+    add_change_warning_message()
   }
 }
 

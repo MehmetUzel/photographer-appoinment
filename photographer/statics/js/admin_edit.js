@@ -216,6 +216,7 @@ function getCookie(name) {
         user_address[0].fields.street_name+`<br> Apartman No : `+user_address[0].fields.building_num+`<br> Daire No :`+
         user_address[0].fields.flat_num+`<br> Adres Tarifi : `+user_address[0].fields.address_instructions+`<br><hr>Çekim Detayları <br> Çekim Tipi : `+
         user_shoot.type+`<br> Albüm Tipi : `+user_shoot.album+`<br> Konsept Sayısı : `+user_shoot.num_of_concept+`<br> Seçilen Konseptler : `+user_shoot.concepts
+        +`<br> Tutar : `+user_shoot.total_price +`₺`
         );
     }
 
