@@ -257,5 +257,6 @@ def prepare_shoot_details(shoot,app_user):
     shoot_dict["concepts"] = concept_names
     shoot_dict["user_name"] = app_user.first_name + " "+ app_user.last_name
     shoot_dict["user_phone"] = app_user.phone
+    shoot_dict["total_price"] = shoot.num_of_concept.price + shoot.album_type.price
 
     return shoot_dict
