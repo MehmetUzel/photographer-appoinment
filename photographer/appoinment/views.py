@@ -135,7 +135,7 @@ def appoinment(response):
 
     concept_shoot_items = Shoot_Concept.objects.filter(shoot_id=item[0]).count()
     num_concept = item[0].num_of_concept.number_of_selection
-    if not item.exists() or concept_shoot_items < num_concept:
+    if not item.exists() or concept_shoot_items != num_concept:
         return redirect('/photoshoot/concepts/')
     return render(response, "appoinment/appoinment.html")
 
@@ -161,7 +161,7 @@ def add_or_delete_appoinment(response):
     elif response.user.is_admin:
         item = Appoinment.objects.filter(date = app_date, time=app_time)
         if item.exists():
-            item.delete()
+            item[0].delete()
             return JsonResponse({"result": "success"}, status=200)
 
     else:
