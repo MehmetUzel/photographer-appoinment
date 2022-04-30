@@ -152,11 +152,13 @@ def add_or_delete_appoinment(response):
 
     if app_add == "true": 
         current_user = response.user
-
-        appoinment_new_item = Appoinment(user = current_user, date = app_date, time=app_time)
-        appoinment_new_item.save()
-
-        return JsonResponse({"result": "success"}, status=200)
+        item = Appoinment.objects.filter(date = app_date, time=app_time)
+        if not item.exists():
+            user_appoinment = Appoinment.objects.filter(date__range =(datetime.date.today(),app_date),user = current_user)
+            if not user_appoinment.exists():
+                appoinment_new_item = Appoinment(user = current_user, date = app_date, time=app_time)
+                appoinment_new_item.save()
+                return JsonResponse({"result": "success"}, status=200)
 
     elif response.user.is_admin:
         item = Appoinment.objects.filter(date = app_date, time=app_time)
