@@ -130,6 +130,9 @@ def get_week_data(response):
 def appoinment(response):
     current_user = response.user
     item = Shoot_Plan.objects.filter(user_id=current_user)
+    if not item.exists():
+        return redirect('/photoshoot/concepts/')
+
     concept_shoot_items = Shoot_Concept.objects.filter(shoot_id=item[0]).count()
     num_concept = item[0].num_of_concept.number_of_selection
     if not item.exists() or concept_shoot_items < num_concept:
