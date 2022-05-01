@@ -5,8 +5,6 @@ from .forms import RegisterForm,LoginForm,ProfileForm,PartialProfileForm,Partial
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
 from django.conf import settings
-#from cart.models import Cart
-# Create your views here.
 
 def register(response):
     if response.method == "POST":
