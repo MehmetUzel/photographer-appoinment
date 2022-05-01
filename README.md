@@ -1,7 +1,45 @@
 # photographer-appoinment
 Photograph shooting planner and appoinment system for customers
 
+# Current Features
+
+Register, Login and Logout for User
+
+Adding Address 
+
+Creating Appointment for user in admin-edit page
+
+Exporting appointments from django-admin panel
+
+Filtering appointments from django-admin panel and sorting them by date.
+
+Only letting one appointment for one user
+
+Creating Off Days
+
+Off days are display as booked to users because customer dont want users be able to see they are not working at that time
+
+Calendar view for users to see which days are available
+
+Displaying appointment details in admin-edit page
+
+Creating Shoot Plan for user. (Shoot-plan includes shoot-type album and num-of-concept)
+
+Selecting Concepts
+
+If num-of-concepts decreased after selecting concepts. Concept selection screen shows cute message to user "You decreased number of concepts so you should leave some of them, We are sorry 🥲"
+
+Compressing Concepts photos when admin uploads them so page speed does not suffer from huge files.
+
+All delevelopment made in English but due to customer frontend translated to Turkish.
+
+Flow of the usage of website forced to user for example they cannot create shoot_plan before they add address information and so on. They have to select everything correctly before accessing appointment selection screen.
+
 # Known Issues and Planned Feature
+Login user automatically when they register.
+
+Adding All of the cities and districts for Turkey
+
 Is down_payment paid or not ? because price field is currently not implemented.
 
 Smtp Configuration
