@@ -15,6 +15,9 @@ class AppoinmentResource(resources.ModelResource):
 class AppoinmentAdmin(ImportExportModelAdmin):
     resource_class = AppoinmentResource
     actions = [approve_appoinment]
+    list_display = ('date','time','user','status')
+    ordering = ('date',)
+    list_filter = ('status',)
 
 
 # class AppoinmentActionAdmin(admin.ModelAdmin):
