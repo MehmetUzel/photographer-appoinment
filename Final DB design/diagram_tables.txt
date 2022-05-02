@@ -42,6 +42,9 @@ Table shoot_plan {
   num_of_concept int [ref: > consept_info.id]
   is_active boolean
   created_at timestamp
+  total int
+  payment_choice varchar
+  is_paid boolean
 }
 
 Table consept_info {
@@ -69,15 +72,6 @@ Table photo_consept {
   id int [pk]
   consept_id int  [ref: > consept.id]
   url varchar
-}
-
-
-Table payment {
-  id int [pk]
-  shoot_id int [ref: - shoot_plan.id]
-  total int
-  payment_choice varchar
-  is_paid boolean
 }
 
 

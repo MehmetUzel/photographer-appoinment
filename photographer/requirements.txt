@@ -8,6 +8,7 @@ django-auto-logout==0.5.0
 django-bootstrap4==22.1
 django-crispy-forms==1.14.0
 django-import-export==2.8.0
+django-resized==0.3.11
 et-xmlfile==1.1.0
 MarkupPy==1.14
 odfpy==1.4.1

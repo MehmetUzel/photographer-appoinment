@@ -23,6 +23,7 @@ def photo_shoot(response):
         if form.is_valid():
             shootplan = form.save(commit=False)
             shootplan.user_id = current_user
+            shootplan.total_amount = shootplan.num_of_concept.price + shootplan.album_type.price
             shootplan.save()
             # return redirect("user/userprofile.html")
             return render(response, 'photoshoot/shootplan.html', {'form':form})
