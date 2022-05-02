@@ -37,6 +37,8 @@ All delevelopment made in English but due to customer frontend translated to Tur
 
 Flow of the usage of website forced to user for example they cannot create shoot_plan before they add address information and so on. They have to select everything correctly before accessing appointment selection screen.
 
+Asking Childs age when creating shoot_plan
+
 # Known Issues and Planned Feature
 "S" Login user automatically when they register.
 
@@ -49,8 +51,6 @@ Flow of the usage of website forced to user for example they cannot create shoot
 "S" Password Reset Strategy
 
 "S" Handling Returning Customers Right now not supported because More than one shoot_plan and appointment is not available for same user
-
-Asking Childs age when creating shoot_plan
 
 "S" Changing Shoot_type when creating Shoot_plan causes errors if user selected concepts before changing shoot_type old selected concepts is
 not displayed because concepts screen only displays selected shoot_type concepts.
