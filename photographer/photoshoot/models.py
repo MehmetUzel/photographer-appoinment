@@ -47,6 +47,7 @@ class Shoot_Plan(models.Model):
 
     user_id = models.ForeignKey(User, on_delete=models.PROTECT)
     shoot_type = models.ForeignKey(Shoot_Type, on_delete=models.PROTECT)
+    birth_date = models.DateField()
     album_type = models.ForeignKey(Album_Info, on_delete=models.PROTECT)
     num_of_concept = models.ForeignKey(Concept_Info, on_delete=models.PROTECT)
     is_active = models.BooleanField(default=True)
