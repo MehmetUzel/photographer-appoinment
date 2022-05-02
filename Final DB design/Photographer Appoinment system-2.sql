@@ -39,7 +39,10 @@ CREATE TABLE "shoot_plan" (
   "album_id" int,
   "num_of_concept" int,
   "is_active" boolean,
-  "created_at" timestamp
+  "created_at" timestamp,
+  "total" int,
+  "payment_choice" varchar,
+  "is_paid" boolean
 );
 
 CREATE TABLE "consept_info" (
@@ -65,14 +68,6 @@ CREATE TABLE "photo_consept" (
   "id" int PRIMARY KEY,
   "consept_id" int,
   "url" varchar
-);
-
-CREATE TABLE "payment" (
-  "id" int PRIMARY KEY,
-  "shoot_id" int,
-  "total" int,
-  "payment_choice" varchar,
-  "is_paid" boolean
 );
 
 CREATE TABLE "appoinment" (
@@ -111,6 +106,14 @@ CREATE TABLE "shoot_type" (
   "name" varchar
 );
 
+COMMENT ON COLUMN "appoinment"."appoinment_date" IS 'When order created';
+
+COMMENT ON COLUMN "appoinment"."created_at" IS 'When order created';
+
+COMMENT ON COLUMN "off_days"."off_date" IS 'When order created';
+
+COMMENT ON COLUMN "shoot_time"."time" IS 'create calendar times based on this but dont query that one every time, render pages once it changes and serve them to user';
+
 ALTER TABLE "address" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
 
 ALTER TABLE "address" ADD FOREIGN KEY ("city") REFERENCES "city" ("id");
@@ -131,8 +134,6 @@ ALTER TABLE "consept" ADD FOREIGN KEY ("type_id") REFERENCES "shoot_type" ("id")
 
 ALTER TABLE "photo_consept" ADD FOREIGN KEY ("consept_id") REFERENCES "consept" ("id");
 
-ALTER TABLE "payment" ADD FOREIGN KEY ("shoot_id") REFERENCES "shoot_plan" ("id");
-
 ALTER TABLE "appoinment" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
 
 ALTER TABLE "appoinment" ADD FOREIGN KEY ("time") REFERENCES "shoot_time" ("time");
@@ -146,11 +147,3 @@ ALTER TABLE "shoot_appointment" ADD FOREIGN KEY ("appoinment_id") REFERENCES "ap
 ALTER TABLE "shoot_concept" ADD FOREIGN KEY ("shoot_id") REFERENCES "shoot_plan" ("id");
 
 ALTER TABLE "shoot_concept" ADD FOREIGN KEY ("concept_id") REFERENCES "consept" ("id");
-
-COMMENT ON COLUMN "appoinment"."appoinment_date" IS 'When order created';
-
-COMMENT ON COLUMN "appoinment"."created_at" IS 'When order created';
-
-COMMENT ON COLUMN "off_days"."off_date" IS 'When order created';
-
-COMMENT ON COLUMN "shoot_time"."time" IS 'create calendar times based on this but dont query that one every time, render pages once it changes and serve them to user';

@@ -38,12 +38,23 @@ class Photo_Concept(models.Model):
         return (self.concept_id.name+" konseptinin fotoğrafı")
 
 class Shoot_Plan(models.Model):
+    EFT = 'EFT'
+    CASH = 'CASH'
+    PAYMENT_TYPES = [
+        (EFT, 'EFT/HAVALE'),
+        (CASH, 'Nakit'),
+    ]
+
     user_id = models.ForeignKey(User, on_delete=models.PROTECT)
     shoot_type = models.ForeignKey(Shoot_Type, on_delete=models.PROTECT)
     album_type = models.ForeignKey(Album_Info, on_delete=models.PROTECT)
     num_of_concept = models.ForeignKey(Concept_Info, on_delete=models.PROTECT)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    total_amount = models.DecimalField(max_digits=8,decimal_places=2)
+    payment_choice = models.CharField(max_length=45, choices=PAYMENT_TYPES)
+    is_paid = models.BooleanField(default=False)
+
     def __str__(self):
         return (self.user_id.first_name+" "+self.user_id.last_name+" adlı kullanıcının çekim planı")
 
@@ -58,19 +69,3 @@ class Shoot_Concept(models.Model):
     concept_id = models.ForeignKey(Concept, on_delete=models.PROTECT)
     def __str__(self):
         return (self.shoot_id.user_id.first_name+" "+self.shoot_id.user_id.last_name+" adlı kullanıcının çekim planı "+self.concept_id.name+" konsepti")
-
-class Payment(models.Model):
-    EFT = 'EFT'
-    CASH = 'CASH'
-    PAYMENT_TYPES = [
-        (EFT, 'EFT/HAVALE'),
-        (CASH, 'Nakit'),
-    ]
-
-    shoot_id = models.ForeignKey(Shoot_Plan, on_delete=models.PROTECT)
-    total_amount = models.DecimalField(max_digits=8,decimal_places=2)
-    payment_choice = models.CharField(max_length=45, choices=PAYMENT_TYPES)
-    is_paid = models.BooleanField(default=False)
-
-    def __str__(self):
-        return (self.shoot_id.user_id.first_name+" "+self.shoot_id.user_id.last_name+" adlı kullanıcının çekiminin ödeme durumu")

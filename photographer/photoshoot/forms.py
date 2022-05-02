@@ -8,9 +8,10 @@ from django.utils.translation import gettext_lazy as _
 class ShootPlanForm(forms.ModelForm):
     class Meta:
         model=Shoot_Plan
-        fields = ["shoot_type","album_type","num_of_concept"]
+        fields = ["shoot_type","album_type","num_of_concept","payment_choice"]
         labels = {
             'shoot_type': _('Çekim Türü'),
             'album_type': _('Albüm'),
             'num_of_concept': _('Konsept Sayısı'),
+            'payment_choice': _('Ödeme Tercihi'),
         }
