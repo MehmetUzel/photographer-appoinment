@@ -74,7 +74,7 @@ function getCookie(name) {
   }
 
 
-    const monthlist = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+  const monthlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     var d = new Date();
 

@@ -1,5 +1,13 @@
 # photographer-appoinment
-Photograph shooting planner and appoinment system for customers
+Newborn Photography shooting planner and appointment system for customers
+
+Made with Django 4.0.3 and really bad vanilla JS please don't look JS codes without protective glasses or you would definetely be blind
+
+Also sorry for misspelling some words like "appoinment" when i figured out that i spelled that wrong it was too late and i use that word a lot and it wont worth the correction :s
+
+This project was for my friend who lives in Turkey so this project mixed with Turkish and English
+
+Projects core features are completed but it has potential improvements as i listed below
 
 # Current Features
 
@@ -60,8 +68,7 @@ overlap they cannot see appointment in admin-edit screen. Don't let admin make o
 
 "S" Shoot_Appointment table is currently not using but it added to model class when you decide to implement more than one appointments for same user.(This feature is not urgent because customer can have returning customer after one year "Because they only shoot newborns and 1 year old babies")We dont want user to create multiple shoots and appointments at the same time and matching them manually. This should be done automatically.First thing that i came up with is only selecting future appointment and shoot_plan. If an appointment and shoot plan is not in future they can create new one and so on. You can also use is_active field if you want. If you use that strategy maybe you dont need to create shoot_appointment table but its your choice. Think wisely.
 
-
-Mobile navigation bar display problem its because of fixing scrool you should also solve it somehow
+"!" Mobile navigation bar display problem its because of fixing scrool you should also solve it somehow
 
 "S" Exporting appointments "Currently its only exporting e-mails of users who created appointment. You should add details for appointment maybe you should also add shoot_details."
 
