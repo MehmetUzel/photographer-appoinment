@@ -12,12 +12,12 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ["first_name","last_name","email", "phone","password1", "password2"]
         labels = {
-            'first_name': _('İsim'),
-            'last_name': _('Soyisim'),
+            'first_name': _('First Name'),
+            'last_name': _('Last Name'),
             'email': _('E-mail'),
-            'phone': _('Telefon'),
-            'password1': _('Parola'),
-            'password2': _('Parola Onayı'),
+            'phone': _('Phone'),
+            'password1': _('Password'),
+            'password2': _('Password Check'),
         }
 
 class LoginForm(AuthenticationForm):
@@ -36,14 +36,14 @@ class PartialProfileForm(forms.ModelForm):
         model = Address
         fields = ["name","city","district","neighbourhood","street_name","building_num","flat_num","address_instructions"]
         labels = {
-            'name': _('Adres Adı'),
-            'city': _('İl'),
-            'district': _('İlçe'),
-            'neighbourhood': _('Mahalle'),
-            'street_name': _('Sokak'),
-            'building_num': _('Apartman No'),
-            'flat_num': _('Daire No'),
-            'address_instructions': _('Adres Tarifi'),
+            'name': _('Adsress Name'),
+            'city': _('City'),
+            'district': _('District'),
+            'neighbourhood': _('Neighbourhood'),
+            'street_name': _('Street'),
+            'building_num': _('Building Number'),
+            'flat_num': _('Flat Number'),
+            'address_instructions': _('Address Instructions'),
         }
 
 class ProfileForm(forms.ModelForm):
@@ -64,10 +64,10 @@ class PartialUserProfileForm(forms.ModelForm):
         model = User
         fields = ["first_name","last_name","phone","email"]
         labels = {
-            'first_name': _('İsim'),
-            'last_name': _('Soyisim'),
+            'first_name': _('First Name'),
+            'last_name': _('Last name'),
             'email': _('E-mail'),
-            'phone': _('Telefon'),
+            'phone': _('Phone'),
         }
 
     def __init__(self, *args, **kwargs):

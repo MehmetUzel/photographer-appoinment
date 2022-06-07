@@ -17,9 +17,9 @@ class ShootPlanForm(forms.ModelForm):
         model=Shoot_Plan
         fields = ["shoot_type","album_type","num_of_concept","payment_choice","birth_date"]
         labels = {
-            'shoot_type': _('Çekim Türü'),
-            'album_type': _('Albüm'),
-            'num_of_concept': _('Konsept Sayısı'),
-            'birth_date': _('Bebeğin Doğum Tarihi'),
-            'payment_choice': _('Ödeme Tercihi'),
+            'shoot_type': _('Shoot Type'),
+            'album_type': _('Album Type'),
+            'num_of_concept': _('Number of Concept'),
+            'birth_date': _('Birth Date of Child'),
+            'payment_choice': _('Payment Type'),
         }

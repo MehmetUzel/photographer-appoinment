@@ -6,108 +6,109 @@ Admin Edit
 {%block content%}
 <h4>Randevu - İzin</h4>
 <div style="text-align:center;">
-<input type="submit" id='opp' value="Geri" onclick="previous()">
-<input type="submit" id='opp' value="İleri" onclick="next()">
+  <input type="submit" id='opp' value="Previous" onclick="previous()">
+  <input type="submit" id='opp' value="Next" onclick="next()">
 
 </div>
 
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <table>
-        <thead>
-          <tr>
-            <th>
-              <span class="long" id="monthl">Mart</span>
-              <span class="short" id="months">Mart</span>
-            </th>
-            <th>
-              <span class="day">1</span>
-              <span class="long">Pazartesi</span>
-              <span class="short">Pts</span>
-            </th>
-            <th>
-              <span class="day">2</span>
-              <span class="long">Salı</span>
-              <span class="short">Sal</span>
-            </th>
-            <th>
-              <span class="day">3</span>
-              <span class="long">Çarşamba</span>
-              <span class="short">Çrş</span>
-            </th>
-            <th>
-              <span class="day">4</span>
-              <span class="long">Perşembe</span>
-              <span class="short">Prş</span>
-            </th>
-            <th>
-              <span class="day">5</span>
-              <span class="long">Cuma</span>
-              <span class="short">Cum</span>
-            </th>
-            <th>
-              <span class="day">6</span>
-              <span class="long">Cumartesi</span>
-              <span class="short">Cts</span>
-            </th>
-            <th>
-              <span class="day">7</span>
-              <span class="long">Pazar</span>
-              <span class="short">Pzr</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr id="morning">
-            <td class="hour" rowspan="1"><span>9:00</span></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<table>
+  <thead>
+    <tr>
+      <th>
+        <span class="long" id="monthl">Mart</span>
+        <span class="short" id="months">Mart</span>
+      </th>
+      <th>
+        <span class="day">1</span>
+        <span class="long">Monday</span>
+        <span class="short">Mon</span>
+      </th>
+      <th>
+        <span class="day">2</span>
+        <span class="long">Tuesday</span>
+        <span class="short">Tue</span>
+      </th>
+      <th>
+        <span class="day">3</span>
+        <span class="long">Wednesday</span>
+        <span class="short">We</span>
+      </th>
+      <th>
+        <span class="day">4</span>
+        <span class="long">Thursday</span>
+        <span class="short">Thur</span>
+      </th>
+      <th>
+        <span class="day">5</span>
+        <span class="long">Friday</span>
+        <span class="short">Fri</span>
+      </th>
+      <th>
+        <span class="day">6</span>
+        <span class="long">Saturday</span>
+        <span class="short">Sat</span>
+      </th>
+      <th>
+        <span class="day">7</span>
+        <span class="long">Sunday</span>
+        <span class="short">Sun</span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id="morning">
+      <td class="hour" rowspan="1"><span>9:00</span></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
 
 
-          
-          <tr id="noon">
-            <td class="hour" rowspan="1"><span>14:00</span></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          
-          <tr id="evening">
-            <td class="hour" rowspan="1"><span>19:00</span></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
 
-          
-        </tbody>
-      </table>
+    <tr id="noon">
+      <td class="hour" rowspan="1"><span>14:00</span></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr id="evening">
+      <td class="hour" rowspan="1"><span>19:00</span></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+
+  </tbody>
+</table>
 
 {%endblock%}
 
-{% block script %}    
+{% block script %}
 
 {% load static %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <script src="{% static 'js/admin_edit.js' %}"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 
 {%endblock%}
-
