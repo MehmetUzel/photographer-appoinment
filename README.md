@@ -1,3 +1,5 @@
+# Made it Public !!!
+
 # photographer-appoinment
 Newborn Photography shooting planner and appointment system for customers
 
@@ -8,6 +10,18 @@ Also sorry for misspelling some words like "appoinment" when i figured out that 
 This project was for my friend who lives in Turkey so this project mixed with Turkish and English
 
 Projects core features are completed but it has potential improvements as i listed below
+
+<img src="screenshots/ss1.png" alt="Screen Shot">
+<br><br>
+<img src="screenshots/ss2.png" alt="Screen Shot">
+
+# Installation
+
+pip install requirements
+
+navigate to /photographer
+
+python manage.py runserver
 
 # Current Features
 
