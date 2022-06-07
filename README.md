@@ -11,6 +11,18 @@ This project was for my friend who lives in Turkey so this project mixed with Tu
 
 Projects core features are completed but it has potential improvements as i listed below
 
+<img src="screenshots/ss1.png" alt="Screen Shot">
+<br><br>
+<img src="screenshots/ss2.png" alt="Screen Shot">
+
+# Installation
+
+pip install requirements
+
+navigate to /photographer
+
+python manage.py runserver
+
 # Current Features
 
 Register, Login and Logout for User
