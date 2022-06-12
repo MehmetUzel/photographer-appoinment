@@ -1,4 +1,4 @@
-# Made it Public !!!
+# Made it Public !!! finally
 
 # photographer-appoinment
 Newborn Photography shooting planner and appointment system for customers
